@@ -1,5 +1,7 @@
 package com.example.oldcar.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 /**
@@ -13,54 +15,71 @@ import javax.persistence.*;
 public class CarHeader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
      * 品牌
      */
     @ManyToOne
+    @ApiModelProperty("品牌")
     private CarBrand carBrand;
 
     /**
      * 车型名称
      */
+    @ApiModelProperty("车型名称")
     private String name;
 
     /**
      * 车型图
      */
     @ManyToOne
+    @ApiModelProperty("车型图")
     private FilePath picture;
 
     /**
-     * 价格
+     * 购买价格
      */
-    private Integer price;
+    @ApiModelProperty("购买价格")
+    private Integer BuyPrice;
+
+    /**
+     * 租赁价格
+     */
+    @ApiModelProperty("租赁价格")
+    private Integer LeasePrice;
 
     /**
      * 级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等
      */
+    @ApiModelProperty("级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等")
     private Integer level;
 
     /**
      * 分类 0,1,2,3   分别表示老爷车、平行进口车、二手车和新能源车
      */
+    @ApiModelProperty("分类 0,1,2,3   分别表示老爷车、平行进口车、二手车和新能源车")
     private Integer type;
 
     /**
      * 年份 老爷车专有字段
      */
+    @ApiModelProperty("年份 老爷车专有字段")
     private Integer year;
 
     /**
      * 使用时长 /年  二手车专有字段
      */
+    @ApiModelProperty("使用时长 /年  二手车专有字段")
     private Integer useLength;
 
     /**
-     * 配置 以数值量化
+     * 配置
      */
-    private Integer config;
+    @ManyToOne
+    @ApiModelProperty("配置 真皮座椅、倒车影像等")
+    private CarConfig config;
 
     public Long getId() {
         return id;
@@ -94,12 +113,20 @@ public class CarHeader {
         this.picture = picture;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getBuyPrice() {
+        return BuyPrice;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setBuyPrice(Integer buyPrice) {
+        BuyPrice = buyPrice;
+    }
+
+    public Integer getLeasePrice() {
+        return LeasePrice;
+    }
+
+    public void setLeasePrice(Integer leasePrice) {
+        LeasePrice = leasePrice;
     }
 
     public Integer getLevel() {
@@ -134,11 +161,11 @@ public class CarHeader {
         this.useLength = useLength;
     }
 
-    public Integer getConfig() {
+    public CarConfig getConfig() {
         return config;
     }
 
-    public void setConfig(Integer config) {
+    public void setConfig(CarConfig config) {
         this.config = config;
     }
 }

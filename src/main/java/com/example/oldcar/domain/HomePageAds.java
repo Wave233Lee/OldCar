@@ -1,6 +1,7 @@
 package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 public class HomePageAds {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
@@ -22,6 +24,7 @@ public class HomePageAds {
      */
     @ManyToOne
     @JoinColumn(name = "home_page_header",referencedColumnName = "id")
+    @ApiModelProperty("对应首页")
     private HomePageHeader homePageHeader;
 
     /**
@@ -29,11 +32,13 @@ public class HomePageAds {
      */
     @ManyToOne
     @JoinColumn(name = "ad",referencedColumnName = "id")
+    @ApiModelProperty("广告图片")
     private Ad ad;
 
     /**
      * 展示顺序
      */
+    @ApiModelProperty("展示顺序")
     private Integer sequence;
 
     public Long getId() {

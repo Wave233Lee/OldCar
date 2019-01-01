@@ -76,11 +76,6 @@ public class HomePageHeaderService {
 
     /**
      * 查询所有-分页
-     * @param page
-     * @param size
-     * @param sortFieldName
-     * @param asc
-     * @return
      */
     public Page<HomePageHeader> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 

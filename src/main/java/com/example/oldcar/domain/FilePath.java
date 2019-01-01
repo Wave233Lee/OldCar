@@ -1,5 +1,7 @@
 package com.example.oldcar.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,11 +17,13 @@ import javax.persistence.Id;
 public class FilePath {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
      * 路径
      */
+    @ApiModelProperty("路径")
     private String path;
 
     public Long getId() {

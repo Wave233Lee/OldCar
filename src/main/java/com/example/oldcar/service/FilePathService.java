@@ -46,7 +46,7 @@ public class FilePathService {
             FilePath filePath = new FilePath();
             String server = "111.230.34.50:8080";
 //            String server = "127.0.0.1:8080";
-            filePath.setPath("http://"+ server +"/oldcar/"+ path + fileName);
+            filePath.setPath("http://"+ server +"/oldcar/img/"+ path + fileName);
             return filePathRepository.save(filePath);
         }else
             throw new CarException(EnumExceptions.UPLOAD_FAILED_EMPUTY);
@@ -62,8 +62,6 @@ public class FilePathService {
 
     /**
      * 查询所有
-     *
-     * @return
      */
     public List<FilePath> findAll() {
         return filePathRepository.findAll();

@@ -1,5 +1,7 @@
 package com.example.oldcar.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 /**
@@ -13,17 +15,20 @@ import javax.persistence.*;
 public class ContentGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
      * 图片
      */
     @ManyToOne
+    @ApiModelProperty("图片")
     private FilePath picture;
 
     /**
      * 文字
      */
+    @ApiModelProperty("文字")
     private String note;
 
     public Long getId() {

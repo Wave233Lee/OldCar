@@ -1,9 +1,9 @@
 package com.example.oldcar.service;
 
-import com.example.oldcar.domain.VideoHeader;
+import com.example.oldcar.domain.LeaseOrder;
 import com.example.oldcar.exception.CarException;
 import com.example.oldcar.exception.EnumExceptions;
-import com.example.oldcar.repository.VideoHeaderRepository;
+import com.example.oldcar.repository.LeaseOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,28 +20,27 @@ import java.util.Optional;
  * 说明:
  *
  * @author WaveLee
- * 日期: 2018/12/27
+ * 日期: 2018/12/28
  */
 @Service
-public class VideoHeaderService {
+public class LeaseOrderService {
     @Autowired
-    private VideoHeaderRepository videoHeaderRepository;
-
+    private LeaseOrderRepository leaseOrderRepository;
 
     /**
      * 新增
      */
-    public VideoHeader add(VideoHeader informationContent){
-        return videoHeaderRepository.save(informationContent);
+    public LeaseOrder add(LeaseOrder informationContent){
+        return leaseOrderRepository.save(informationContent);
     }
 
     /**
      * 更新
      */
-    public VideoHeader update(VideoHeader informationContent) {
+    public LeaseOrder update(LeaseOrder informationContent) {
 
         // 验证是否存在
-        Optional<VideoHeader> informationContent1 = videoHeaderRepository.findById(informationContent.getId());
+        Optional<LeaseOrder> informationContent1 = leaseOrderRepository.findById(informationContent.getId());
         if (informationContent.getId() == null || !informationContent1.isPresent()) {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
@@ -52,8 +51,8 @@ public class VideoHeaderService {
     /**
      * 根据id查询
      */
-    public VideoHeader findById(Long id){
-        Optional<VideoHeader> optional = videoHeaderRepository.findById(id);
+    public LeaseOrder findById(Long id){
+        Optional<LeaseOrder> optional = leaseOrderRepository.findById(id);
         return optional.orElse(null);
     }
 
@@ -63,7 +62,7 @@ public class VideoHeaderService {
      */
     @Transactional
     public void deleteInBatch(Long[] ids){
-        videoHeaderRepository.deleteInBatch(videoHeaderRepository.findAllById(Arrays.asList(ids)));
+        leaseOrderRepository.deleteInBatch(leaseOrderRepository.findAllById(Arrays.asList(ids)));
     }
 
     /**
@@ -71,18 +70,18 @@ public class VideoHeaderService {
      *
      * @return
      */
-    public List<VideoHeader> findAll() {
-        return videoHeaderRepository.findAll();
+    public List<LeaseOrder> findAll() {
+        return leaseOrderRepository.findAll();
     }
 
     /**
      * 查询所有-分页
      */
-    public Page<VideoHeader> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<LeaseOrder> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            VideoHeader.class.getDeclaredField(sortFieldName);
+            LeaseOrder.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为id
             sortFieldName = "id";
@@ -96,6 +95,6 @@ public class VideoHeaderService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return videoHeaderRepository.findAll(pageable);
+        return leaseOrderRepository.findAll(pageable);
     }
 }

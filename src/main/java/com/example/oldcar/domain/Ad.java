@@ -2,6 +2,7 @@ package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
@@ -17,17 +18,20 @@ import javax.persistence.*;
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
      * 图片地址
      */
     @ManyToOne
+    @ApiModelProperty("图片路径")
     private FilePath filePath;
 
     /**
      * 备注
      */
+    @ApiModelProperty("备注")
     private String note;
 
     public Long getId() {

@@ -2,6 +2,7 @@ package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
 public class ArticleContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
@@ -23,6 +25,7 @@ public class ArticleContent {
      */
     @ManyToOne
     @JoinColumn(name = "article_content",referencedColumnName = "id")
+    @ApiModelProperty("对应文章")
     private ArticleHeader article;
 
     /**
@@ -30,11 +33,13 @@ public class ArticleContent {
      */
     @ManyToOne
     @JoinColumn(name = "content_group",referencedColumnName = "id")
+    @ApiModelProperty("图文组")
     private ContentGroup contentGroup;
 
     /**
      * 顺序
      */
+    @ApiModelProperty("顺序")
     private Integer sequence;
 
     public Long getId() {

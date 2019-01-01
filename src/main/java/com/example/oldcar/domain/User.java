@@ -1,5 +1,7 @@
 package com.example.oldcar.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 /**
@@ -15,11 +17,13 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
      * 用户名
      */
+    @ApiModelProperty("用户名")
     private String userName;
 
     /**
@@ -27,36 +31,43 @@ public class User {
      */
     @ManyToOne(targetEntity = FilePath.class)
     @JoinColumn(name = "avatar_id",referencedColumnName = "id")
+    @ApiModelProperty("用户头像")
     private FilePath avatar;
 
     /**
      * 等级
      */
+    @ApiModelProperty("等级")
     private Integer level;
 
     /**
      * 关注
      */
+    @ApiModelProperty("关注数")
     private Integer follow;
 
     /**
      * 收藏
      */
+    @ApiModelProperty("收藏数")
     private Integer collection;
 
     /**
      * 足迹
      */
+    @ApiModelProperty("足迹数")
     private Integer history;
 
     /**
      * 积分
      */
+    @ApiModelProperty("积分数")
     private Integer integration;
 
     /**
      * 获赞
      */
+    @ApiModelProperty("获赞数")
     private Integer praise;
 
     public Long getId() {

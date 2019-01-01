@@ -27,7 +27,7 @@ public class FileUploadController {
     // 传入的参数file是我们指定的文件
     @PostMapping("/upload")
     @ResponseBody
-    @ApiOperation(value="上传文件",notes="file为上传文件，filePath为存储路径例如:img/car/")
+    @ApiOperation(value="上传文件",notes="file为上传文件，filePath为存储路径例如:car/")
     public Result<FilePath> upload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("filePath") String filePath) {
         return ResultUtil.success(filePathService.Upload(file,filePath));

@@ -1,5 +1,7 @@
 package com.example.oldcar.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,7 @@ import javax.persistence.*;
 public class HomePageHeadline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
@@ -20,11 +23,13 @@ public class HomePageHeadline {
      */
     @ManyToOne
     @JoinColumn(name = "home_page_header",referencedColumnName = "id")
+    @ApiModelProperty("对应首页")
     private HomePageHeader homePageHeader;
 
     /**
      * 头条标题
      */
+    @ApiModelProperty("头条标题")
     private String title;
 
     /**
@@ -32,6 +37,7 @@ public class HomePageHeadline {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article",referencedColumnName = "id")
+    @ApiModelProperty("头条文章")
     private ArticleHeader article;
 
     public Long getId() {

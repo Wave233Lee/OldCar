@@ -131,7 +131,7 @@ public class UserService {
             sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
-        Pageable pageable = new PageRequest(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size, sort);
         return userRepository.findAll(pageable);
     }
 

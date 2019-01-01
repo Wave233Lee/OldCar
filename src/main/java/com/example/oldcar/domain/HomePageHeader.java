@@ -1,6 +1,7 @@
 package com.example.oldcar.domain;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class HomePageHeader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
@@ -24,6 +26,7 @@ public class HomePageHeader {
      */
     @OneToMany(targetEntity = HomePageAds.class)
     @JoinColumn(name = "home_page_header",referencedColumnName = "id")
+    @ApiModelProperty("广告图片组")
     private List<HomePageAds> ads;
 
     /**
@@ -31,6 +34,7 @@ public class HomePageHeader {
      */
     @OneToMany(targetEntity = HomePageHeadline.class)
     @JoinColumn(name = "home_page_header",referencedColumnName = "id")
+    @ApiModelProperty("头条")
     private List<HomePageHeadline> headlines;
 
     public Long getId() {

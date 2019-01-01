@@ -5,31 +5,26 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 /**
- * 说明:品牌    含LOGO和名称
+ * 说明:首页—老车租赁页面初始设定，含广告图，用于管理端设定
  *
  * @author WaveLee
- * 日期: 2018/12/25
+ * 日期: 2018/12/27
  */
 @Entity
-@Table(name = "common_car_brand")
-public class CarBrand {
+@Table(name = "init_homepage_lease")
+public class InitHomePageLease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
-     * LOGO路径
+     * 广告图片
      */
     @ManyToOne
-    @ApiModelProperty("LOGO路径")
-    private FilePath picture;
-
-    /**
-     * 名称
-     */
-    @ApiModelProperty("名称")
-    private String name;
+    @JoinColumn(name = "ad",referencedColumnName = "id")
+    @ApiModelProperty("广告图片")
+    private Ad ad;
 
     /**
      * 备注
@@ -45,20 +40,12 @@ public class CarBrand {
         this.id = id;
     }
 
-    public FilePath getPicture() {
-        return picture;
+    public Ad getAd() {
+        return ad;
     }
 
-    public void setPicture(FilePath picture) {
-        this.picture = picture;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setAd(Ad ad) {
+        this.ad = ad;
     }
 
     public String getNote() {
