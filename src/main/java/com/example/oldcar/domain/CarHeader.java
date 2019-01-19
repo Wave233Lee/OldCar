@@ -1,8 +1,11 @@
 package com.example.oldcar.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 说明: 汽车基本信息   部分字段待设计分离存储
@@ -39,6 +42,27 @@ public class CarHeader {
     private FilePath picture;
 
     /**
+     * 外观展示
+     */
+    @ApiModelProperty("外观展示")
+    @ManyToOne
+    private CarOutShow outShow;
+
+    /**
+     * 内饰展示
+     */
+    @ApiModelProperty("内饰展示")
+    @OneToOne
+    private CarInShow inShow;
+
+    /**
+     * 车型详情
+     */
+    @ApiModelProperty("车型详情")
+    @ManyToOne
+    private CarDetail detail;
+
+    /**
      * 购买价格
      */
     @ApiModelProperty("购买价格")
@@ -65,8 +89,11 @@ public class CarHeader {
     /**
      * 年份 老爷车专有字段
      */
+    @Temporal(value = TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty("年份 老爷车专有字段")
-    private Integer year;
+    private Date years;
 
     /**
      * 使用时长 /年  二手车专有字段
@@ -145,12 +172,12 @@ public class CarHeader {
         this.type = type;
     }
 
-    public Integer getYear() {
-        return year;
+    public Date getYears() {
+        return years;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setYears(Date years) {
+        this.years = years;
     }
 
     public Integer getUseLength() {
@@ -167,5 +194,29 @@ public class CarHeader {
 
     public void setConfig(CarConfig config) {
         this.config = config;
+    }
+
+    public CarOutShow getOutShow() {
+        return outShow;
+    }
+
+    public void setOutShow(CarOutShow outShow) {
+        this.outShow = outShow;
+    }
+
+    public CarInShow getInShow() {
+        return inShow;
+    }
+
+    public void setInShow(CarInShow inShow) {
+        this.inShow = inShow;
+    }
+
+    public CarDetail getDetail() {
+        return detail;
+    }
+
+    public void setDetail(CarDetail detail) {
+        this.detail = detail;
     }
 }

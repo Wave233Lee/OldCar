@@ -3,14 +3,16 @@ package com.example.oldcar.domain;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
- * 说明:
+ * 说明:用户信息
  *
  * @author WaveLee
  * 日期: 2018/12/12
  */
 @Entity
+@Table(name = "user_information")
 public class User {
     /**
      * 主键id
@@ -69,6 +71,34 @@ public class User {
      */
     @ApiModelProperty("获赞数")
     private Integer praise;
+
+    /**
+     * 关注的人
+     */
+    @ApiModelProperty("关注的人")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserFollowing> followings;
+
+    /**
+     * 收藏的东西
+     */
+    @ApiModelProperty("收藏的东西")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserCollection> collections;
+
+    /**
+     * 走过的足迹
+     */
+    @ApiModelProperty("浏览历史，足迹")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserHistory> histories;
+
+    /**
+     * 我的车库
+     */
+    @ApiModelProperty("我的车库")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserGarage> garage;
 
     public Long getId() {
         return id;
@@ -140,5 +170,37 @@ public class User {
 
     public void setPraise(Integer praise) {
         this.praise = praise;
+    }
+
+    public List<UserFollowing> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(List<UserFollowing> followings) {
+        this.followings = followings;
+    }
+
+    public List<UserCollection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<UserCollection> collections) {
+        this.collections = collections;
+    }
+
+    public List<UserHistory> getHistories() {
+        return histories;
+    }
+
+    public void setHistories(List<UserHistory> histories) {
+        this.histories = histories;
+    }
+
+    public List<UserGarage> getGarage() {
+        return garage;
+    }
+
+    public void setGarage(List<UserGarage> garage) {
+        this.garage = garage;
     }
 }

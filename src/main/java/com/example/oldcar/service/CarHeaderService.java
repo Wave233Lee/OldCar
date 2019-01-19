@@ -97,4 +97,28 @@ public class CarHeaderService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return carHeaderRepository.findAll(pageable);
     }
+
+    /**
+     * 通过品牌查询
+     */
+    public Page<CarHeader> findByBrandByPage(Long brandId,Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断排序字段名是否存在
+        try {
+            CarHeader.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为id
+            sortFieldName = "id";
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return carHeaderRepository.findByCarBrand_Id(brandId,pageable);
+    }
 }

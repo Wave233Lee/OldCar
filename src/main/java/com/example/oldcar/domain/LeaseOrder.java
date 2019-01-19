@@ -70,6 +70,26 @@ public class LeaseOrder {
     @ManyToOne
     private CarHeader car;
 
+    /**
+     * 支付标志 0未支付/1已支付
+     */
+    private Integer pay;
+
+    /**
+     * 开票类型 0单位/1个人
+     */
+    private Integer kind;
+
+    /**
+     * 开票标志 0不需要/1需要
+     */
+    private Integer need;
+
+    /**
+     * 税号
+     */
+    private String sh;
+
     public Long getId() {
         return id;
     }
@@ -132,5 +152,37 @@ public class LeaseOrder {
 
     public void setCar(CarHeader car) {
         this.car = car;
+    }
+
+    public Integer getPay() {
+        return pay;
+    }
+
+    public void setPay(Integer pay) {
+        this.pay = pay;
+    }
+
+    public Integer getKind() {
+        return kind;
+    }
+
+    public void setKind(Integer kind) {
+        this.kind = kind;
+    }
+
+    public Integer getNeed() {
+        return need;
+    }
+
+    public void setNeed(Integer need) {
+        this.need = need;
+    }
+
+    public String getSh() {
+        return sh;
+    }
+
+    public void setSh(String sh) {
+        this.sh = sh;
     }
 }

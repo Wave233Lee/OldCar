@@ -29,6 +29,12 @@ public class Ad {
     private FilePath filePath;
 
     /**
+     * 投放位置（可为空）
+     */
+    @ApiModelProperty("投放位置（可为空）")
+    private String location;
+
+    /**
      * 备注
      */
     @ApiModelProperty("备注")

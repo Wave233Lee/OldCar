@@ -30,8 +30,51 @@ public class AccessoriesHeader {
      * 产品图
      */
     @ManyToOne
-    @ApiModelProperty("车型图")
+    @ApiModelProperty("产品图")
     private FilePath picture;
+
+    /**
+     * 品牌
+     */
+    @ApiModelProperty("品牌")
+    private String brand;
+
+    /**
+     * 产品名称
+     */
+    private String name;
+
+    /**
+     * 型号
+     */
+    @ApiModelProperty("型号")
+    private String model;
+
+    /**
+     * 规格
+     */
+    @ApiModelProperty("规格")
+    private String size;
+
+    /**
+     * 颜色
+     */
+    @ApiModelProperty("颜色")
+    private String color;
+
+    /**
+     * 供应商
+     */
+    @ApiModelProperty("供应商")
+    @ManyToOne
+    private Supplier supplier;
+
+    /**
+     * 图文描述
+     */
+    @ApiModelProperty("图文描述")
+    @ManyToOne
+    private ContentGroup contentGroup;
 
     /**
      * 价格
@@ -57,6 +100,13 @@ public class AccessoriesHeader {
      */
     @ApiModelProperty("库存")
     private Integer num;
+
+    /**
+     * 配件评论
+     */
+    @OneToMany(mappedBy = "accessories",cascade = CascadeType.ALL)
+    @ApiModelProperty("评论内容")
+    private List<CommentAccessories> comment;
 
     public Long getId() {
         return id;
@@ -112,5 +162,69 @@ public class AccessoriesHeader {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public ContentGroup getContentGroup() {
+        return contentGroup;
+    }
+
+    public void setContentGroup(ContentGroup contentGroup) {
+        this.contentGroup = contentGroup;
+    }
+
+    public List<CommentAccessories> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<CommentAccessories> comment) {
+        this.comment = comment;
     }
 }

@@ -84,4 +84,14 @@ public class AdController {
 
         return ResultUtil.success(adService.findAllByPage(page, size, sortFieldName, asc));
     }
+
+    /**
+     * 根据投放位置查询
+     */
+    @GetMapping(value = "/getByLocation")
+    @ApiOperation(value = "根据投放位置查询")
+    public Result<Ad> findByLocation(@RequestParam String location){
+        return ResultUtil.success(adService.findByLocation(location));
+    }
+
 }

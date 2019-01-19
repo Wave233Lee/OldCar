@@ -97,4 +97,12 @@ public class AdService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return adRepository.findAll(pageable);
     }
+
+    /**
+     * 根据位置查询
+     */
+    public Ad findByLocation(String location){
+        return adRepository.findByLocation(location);
+    }
+
 }
