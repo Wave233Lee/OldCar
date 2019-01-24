@@ -1,7 +1,6 @@
 package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,26 +8,26 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 说明:配件评价
+ * 说明:周边产品评论
  *
  * @author WaveLee
- * 日期: 2019/1/19
+ * 日期: 2019/1/23
  */
 @Entity
-@Table(name = "common_accessories_comment")
-public class CommentAccessories {
+@Table(name = "common_peripheral_comment")
+public class CommentPeripheral {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
-     * 对应配件
+     * 对应产品
      */
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "accessories")
-    @ApiModelProperty("对应配件")
-    private AccessoriesHeader accessories;
+    @JoinColumn(name = "peripheral")
+    @ApiModelProperty("对应产品")
+    private PeripheralHeader peripheral;
 
     /**
      * 发表者
@@ -60,13 +59,12 @@ public class CommentAccessories {
         this.id = id;
     }
 
-    @JsonIgnore
-    public AccessoriesHeader getAccessories() {
-        return accessories;
+    public PeripheralHeader getPeripheral() {
+        return peripheral;
     }
 
-    public void setAccessories(AccessoriesHeader accessories) {
-        this.accessories = accessories;
+    public void setPeripheral(PeripheralHeader peripheral) {
+        this.peripheral = peripheral;
     }
 
     public User getCommentor() {

@@ -26,7 +26,14 @@ public class CarHeader {
      */
     @ManyToOne
     @ApiModelProperty("品牌")
-    private CarBrand carBrand;
+    private CarBrand brand;
+
+    /**
+     * 车系
+     */
+    @ManyToOne
+    @ApiModelProperty("车系")
+    private CarSeries series;
 
     /**
      * 车型名称
@@ -116,12 +123,20 @@ public class CarHeader {
         this.id = id;
     }
 
-    public CarBrand getCarBrand() {
-        return carBrand;
+    public CarBrand getBrand() {
+        return brand;
     }
 
-    public void setCarBrand(CarBrand carBrand) {
-        this.carBrand = carBrand;
+    public void setBrand(CarBrand brand) {
+        this.brand = brand;
+    }
+
+    public CarSeries getSeries() {
+        return series;
+    }
+
+    public void setSeries(CarSeries series) {
+        this.series = series;
     }
 
     public String getName() {

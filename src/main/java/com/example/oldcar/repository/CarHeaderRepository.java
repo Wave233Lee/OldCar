@@ -16,5 +16,15 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过汽车品牌查询
      */
-    Page<CarHeader> findByCarBrand_Id(Long carBrand, Pageable pageable);
+    Page<CarHeader> findByBrand_Id(Long brand, Pageable pageable);
+
+    /**
+     * 通过汽车级别查询
+     */
+    Page<CarHeader> findByLevel(Integer level,Pageable pageable);
+
+    /**
+     * 通过价格区间查询
+     */
+    Page<CarHeader> findByBuyPriceBetween(Integer start,Integer end,Pageable pageable);
 }

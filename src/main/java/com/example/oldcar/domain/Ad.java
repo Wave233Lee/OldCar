@@ -48,6 +48,14 @@ public class Ad {
         this.id = id;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public FilePath getFilePath() {
         return filePath;
     }

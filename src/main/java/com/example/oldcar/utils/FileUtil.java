@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 /**
- * 说明:
+ * 说明:文件存储工具类
  *
  * @author WaveLee
  * 日期: 2018/12/20

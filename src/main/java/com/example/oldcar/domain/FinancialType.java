@@ -1,37 +1,26 @@
 package com.example.oldcar.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
 /**
- * 说明:配件标签  进口配件、特价处理等
+ * 说明:金融服务商类目
  *
  * @author WaveLee
- * 日期: 2018/12/28
+ * 日期: 2019/1/23
  */
 @Entity
-@Table(name = "common_accessories_tag")
-public class AccessoriesTag {
+@Table(name = "financial_service_type")
+public class FinancialType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
-     * 对应配件
+     * 类目
      */
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "accessories")
-    @ApiModelProperty("对应配件")
-    private AccessoriesHeader accessories;
-
-    /**
-     * 标签名
-     */
-    @ApiModelProperty("标签名")
     private String name;
 
     public Long getId() {
@@ -42,7 +31,6 @@ public class AccessoriesTag {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getName() {
         return name;
     }

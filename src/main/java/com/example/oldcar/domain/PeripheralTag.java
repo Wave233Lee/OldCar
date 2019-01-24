@@ -1,37 +1,36 @@
 package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
 /**
- * 说明:配件标签  进口配件、特价处理等
+ * 说明:周边产品标签
  *
  * @author WaveLee
- * 日期: 2018/12/28
+ * 日期: 2019/1/23
  */
 @Entity
-@Table(name = "common_accessories_tag")
-public class AccessoriesTag {
+@Table(name = "peripheral_tag")
+public class PeripheralTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
     private Long id;
 
     /**
-     * 对应配件
+     * 对应周边
      */
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "accessories")
-    @ApiModelProperty("对应配件")
-    private AccessoriesHeader accessories;
+    @JoinColumn(name = "peripheral")
+    @ApiModelProperty("对应周边")
+    private PeripheralHeader peripheral;
 
     /**
-     * 标签名
+     * 标签
      */
-    @ApiModelProperty("标签名")
+    @ApiModelProperty("标签")
     private String name;
 
     public Long getId() {
@@ -42,12 +41,20 @@ public class AccessoriesTag {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @JsonIgnore
+    public PeripheralHeader getPeripheral() {
+        return peripheral;
+    }
+
+    public void setPeripheral(PeripheralHeader peripheral) {
+        this.peripheral = peripheral;
     }
 }

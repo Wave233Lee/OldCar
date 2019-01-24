@@ -119,6 +119,54 @@ public class CarHeaderService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return carHeaderRepository.findByCarBrand_Id(brandId,pageable);
+        return carHeaderRepository.findByBrand_Id(brandId,pageable);
+    }
+
+    /**
+     * 通过级别查询
+     */
+    public Page<CarHeader> findByLevelByPage(Integer level,Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断排序字段名是否存在
+        try {
+            CarHeader.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为level
+            sortFieldName = "level";
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return carHeaderRepository.findByLevel(level,pageable);
+    }
+
+    /**
+     * 通过价格区间查询
+     */
+    public Page<CarHeader> findByBuyPriceBetweenByPage(Integer start,Integer end,Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断排序字段名是否存在
+        try {
+            CarHeader.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为price
+            sortFieldName = "buyPrice";
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return carHeaderRepository.findByBuyPriceBetween(start,end,pageable);
     }
 }
