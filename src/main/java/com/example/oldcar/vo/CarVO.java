@@ -53,12 +53,12 @@ public class CarVO {
     /**
      * 购买价格
      */
-    private Integer buyPrice;
+    private Double buyPrice;
 
     /**
      * 租赁价格
      */
-    private Integer leasePrice;
+    private Double leasePrice;
 
     /**
      * 级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等

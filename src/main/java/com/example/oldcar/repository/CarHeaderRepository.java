@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +51,6 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过年份区间查询
      */
-    Page<CarHeader> findByYears_YearBetween(Integer start,Integer end,Pageable pageable);
-    List<CarHeader> findByYears_YearBetween(Integer start,Integer end);
+    Page<CarHeader> findByYearsBetween(Date start, Date end, Pageable pageable);
+    List<CarHeader> findByYearsBetween(Date start,Date end);
 }
