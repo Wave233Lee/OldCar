@@ -149,7 +149,7 @@ public class CarHeaderService {
     /**
      * 通过价格区间查询
      */
-    public Page<CarHeader> findByBuyPriceBetweenByPage(Integer start,Integer end,Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<CarHeader> findByBuyPriceBetweenByPage(Double start,Double end,Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {

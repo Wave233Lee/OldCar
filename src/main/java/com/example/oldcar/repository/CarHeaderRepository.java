@@ -44,8 +44,8 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过价格区间查询
      */
-    Page<CarHeader> findByBuyPriceBetween(Integer start,Integer end,Pageable pageable);
-    List<CarHeader> findByBuyPriceBetween(Integer start,Integer end);
+    Page<CarHeader> findByBuyPriceBetween(Double start,Double end,Pageable pageable);
+    List<CarHeader> findByBuyPriceBetween(Double start,Double end);
 
     /**
      * 通过年份区间查询

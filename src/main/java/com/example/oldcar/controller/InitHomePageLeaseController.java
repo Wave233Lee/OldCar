@@ -4,6 +4,7 @@ import com.example.oldcar.domain.InitHomePageLease;
 import com.example.oldcar.domain.Result;
 import com.example.oldcar.service.InitHomePageLeaseService;
 import com.example.oldcar.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/initHomePageLease")
+@Api(tags = "首页广告配置接口")
 public class InitHomePageLeaseController {
     @Autowired
     private InitHomePageLeaseService initHomePageLeaseService;

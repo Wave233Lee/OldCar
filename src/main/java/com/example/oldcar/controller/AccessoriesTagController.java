@@ -4,6 +4,7 @@ import com.example.oldcar.domain.AccessoriesTag;
 import com.example.oldcar.domain.Result;
 import com.example.oldcar.service.AccessoriesTagService;
 import com.example.oldcar.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/accessoriesTag")
+@Api(tags = "配件标签接口")
 public class AccessoriesTagController {
     @Autowired
     private AccessoriesTagService accessoriesTagService;

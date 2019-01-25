@@ -73,13 +73,13 @@ public class CarHeader {
      * 购买价格
      */
     @ApiModelProperty("购买价格")
-    private Integer BuyPrice;
+    private Double buyPrice;
 
     /**
      * 租赁价格
      */
     @ApiModelProperty("租赁价格")
-    private Integer LeasePrice;
+    private Double leasePrice;
 
     /**
      * 级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等
@@ -155,20 +155,20 @@ public class CarHeader {
         this.picture = picture;
     }
 
-    public Integer getBuyPrice() {
-        return BuyPrice;
+    public Double getBuyPrice() {
+        return buyPrice;
     }
 
-    public void setBuyPrice(Integer buyPrice) {
-        BuyPrice = buyPrice;
+    public void setBuyPrice(Double buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public Integer getLeasePrice() {
-        return LeasePrice;
+    public Double getLeasePrice() {
+        return leasePrice;
     }
 
-    public void setLeasePrice(Integer leasePrice) {
-        LeasePrice = leasePrice;
+    public void setLeasePrice(Double leasePrice) {
+        this.leasePrice = leasePrice;
     }
 
     public Integer getLevel() {

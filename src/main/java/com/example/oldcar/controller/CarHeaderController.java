@@ -23,7 +23,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/car")
-@Api(tags = "汽车信息接口")
+@Api(tags = "汽车接口")
 public class CarHeaderController {
     @Autowired
     private CarHeaderService carHeaderService;
@@ -83,5 +83,48 @@ public class CarHeaderController {
                                          @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
 
         return ResultUtil.success(carHeaderService.findAllByPage(page, size, sortFieldName, asc));
+    }
+
+    /**
+     * 通过品牌查询-分页
+     */
+    @GetMapping(value = "/getByBrand")
+    @ApiOperation(value = "通过品牌查询-分页")
+    public Result<Page<CarHeader>> getByBrand(@RequestParam(value = "brandId") Long brandId,
+                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                @RequestParam(value = "sortFieldName", defaultValue = "id") String sortFieldName,
+                                                @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+
+        return ResultUtil.success(carHeaderService.findByBrandByPage(brandId,page, size, sortFieldName, asc));
+    }
+
+    /**
+     * 通过级别查询-分页
+     */
+    @GetMapping(value = "/getByLevel")
+    @ApiOperation(value = "通过级别查询-分页")
+    public Result<Page<CarHeader>> getByLevel(@RequestParam(value = "level") Integer level,
+                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                @RequestParam(value = "sortFieldName", defaultValue = "id") String sortFieldName,
+                                                @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+
+        return ResultUtil.success(carHeaderService.findByLevelByPage(level,page, size, sortFieldName, asc));
+    }
+
+    /**
+     * 通过价格区间查询-分页
+     */
+    @GetMapping(value = "/getByPriceBetween")
+    @ApiOperation(value = "通过价格区间查询-分页")
+    public Result<Page<CarHeader>> getByPriceBetween(@RequestParam(value = "start",defaultValue = "0") Double start,
+                                                     @RequestParam(value = "end", defaultValue = "999") Double end,
+                                                     @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                     @RequestParam(value = "sortFieldName", defaultValue = "id") String sortFieldName,
+                                                     @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+
+        return ResultUtil.success(carHeaderService.findByBuyPriceBetweenByPage(start,end,page, size, sortFieldName, asc));
     }
 }

@@ -1,15 +1,13 @@
 package com.example.oldcar.vo;
 
 import com.example.oldcar.domain.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 说明:
+ * 说明:汽车VO对象
  *
  * @author WaveLee
  * 日期: 2019/1/24
@@ -20,13 +18,11 @@ public class CarVO {
     /**
      * 品牌
      */
-    @ManyToOne
     private CarBrand brand;
 
     /**
      * 车系
      */
-    @ManyToOne
     private CarSeries series;
 
     /**
@@ -37,36 +33,32 @@ public class CarVO {
     /**
      * 车型图
      */
-    @ManyToOne
     private FilePath picture;
 
     /**
      * 外观展示
      */
-    @ManyToOne
     private CarOutShow outShow;
 
     /**
      * 内饰展示
      */
-    @OneToOne
     private CarInShow inShow;
 
     /**
      * 车型详情
      */
-    @ManyToOne
     private CarDetail detail;
 
     /**
      * 购买价格
      */
-    private Integer BuyPrice;
+    private Integer buyPrice;
 
     /**
      * 租赁价格
      */
-    private Integer LeasePrice;
+    private Integer leasePrice;
 
     /**
      * 级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等
@@ -83,7 +75,6 @@ public class CarVO {
      */
     @Temporal(value = TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date years;
 
     /**
@@ -94,7 +85,6 @@ public class CarVO {
     /**
      * 配置
      */
-    @ManyToOne
     private CarConfig config;
 
     /**
@@ -102,8 +92,22 @@ public class CarVO {
      */
     private Integer pr;
 
-    public CarVO(CarHeader car,Integer pr){
-        this.pr = pr;
+    public CarVO(CarHeader car, Integer pr) {
+        this.id = car.getId();
         this.brand = car.getBrand();
+        this.series = car.getSeries();
+        this.name = car.getName();
+        this.picture = car.getPicture();
+        this.outShow = car.getOutShow();
+        this.inShow = car.getInShow();
+        this.detail = car.getDetail();
+        this.buyPrice = car.getBuyPrice();
+        this.leasePrice = car.getLeasePrice();
+        this.level = car.getLevel();
+        this.type = car.getType();
+        this.years = car.getYears();
+        this.useLength = car.getUseLength();
+        this.config = car.getConfig();
+        this.pr = pr;
     }
 }
