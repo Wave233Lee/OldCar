@@ -23,8 +23,6 @@ public class HttpAspect {
     @Autowired
     private AccessLogService accessLogService;
 
-    AccessLog accessLog = new AccessLog();
-
     /**
      * 获取日志对象
      */
@@ -63,6 +61,8 @@ public class HttpAspect {
         logger.info("args = {}", joinPoint.getArgs());
 
         logger.info("\r\n================log end====================\r\n\r\n");
+
+        AccessLog accessLog = new AccessLog();
 
         //读取session中的用户
 //        HttpSession session = request.getSession();
