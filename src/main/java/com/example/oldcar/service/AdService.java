@@ -45,7 +45,7 @@ public class AdService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return adRepository.save(informationContent);
     }
 
     /**

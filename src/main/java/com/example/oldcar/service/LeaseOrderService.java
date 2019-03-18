@@ -45,7 +45,7 @@ public class LeaseOrderService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return leaseOrderRepository.save(informationContent);
     }
 
     /**

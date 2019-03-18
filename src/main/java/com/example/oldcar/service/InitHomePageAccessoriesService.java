@@ -45,7 +45,7 @@ public class InitHomePageAccessoriesService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return initHomePageAccessoriesRepository.save(informationContent);
     }
 
     /**

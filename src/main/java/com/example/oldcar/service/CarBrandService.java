@@ -45,7 +45,7 @@ public class CarBrandService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return carBrandRepository.save(informationContent);
     }
 
     /**

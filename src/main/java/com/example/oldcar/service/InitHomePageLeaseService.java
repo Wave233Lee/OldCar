@@ -45,7 +45,7 @@ public class InitHomePageLeaseService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return initHomePageLeaseRepository.save(informationContent);
     }
 
     /**

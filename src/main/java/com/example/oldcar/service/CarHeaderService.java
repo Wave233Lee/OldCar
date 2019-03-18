@@ -45,7 +45,7 @@ public class CarHeaderService {
             throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
         }
 
-        return informationContent;
+        return carHeaderRepository.save(informationContent);
     }
 
     /**
