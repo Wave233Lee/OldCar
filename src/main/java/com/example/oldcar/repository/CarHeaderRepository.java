@@ -37,6 +37,12 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     List<CarHeader> findBySeries_NameLike(String keyWord);
 
     /**
+     * 分类查询
+     */
+    List<CarHeader> findByTypeAndSeries_NameLike(Integer type,String keyWord);
+
+
+    /**
      * 通过汽车级别查询
      */
     Page<CarHeader> findByLevel(Integer level,Pageable pageable);
