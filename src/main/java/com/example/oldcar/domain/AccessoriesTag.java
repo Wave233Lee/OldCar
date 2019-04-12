@@ -42,7 +42,6 @@ public class AccessoriesTag {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getName() {
         return name;
     }
