@@ -32,6 +32,12 @@ public class CarBrand {
     private String name;
 
     /**
+     * 品牌热门值
+     */
+    private Integer hot;
+
+
+    /**
      * 备注
      */
     @ApiModelProperty("备注")

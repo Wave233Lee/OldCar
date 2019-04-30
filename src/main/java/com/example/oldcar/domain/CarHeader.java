@@ -75,6 +75,11 @@ public class CarHeader {
     @ApiModelProperty("购买价格")
     private Double buyPrice;
 
+    /**\
+     * 价格区间标志 0/0-2年
+     */
+    private Integer priceRange;
+
     /**
      * 租赁价格
      */
@@ -107,6 +112,11 @@ public class CarHeader {
      */
     @ApiModelProperty("使用时长 /年  二手车专有字段")
     private Integer useLength;
+
+    /**
+     * 车龄区间（）
+     */
+    private Integer useLengthRange;
 
     /**
      * 配置
@@ -229,6 +239,22 @@ public class CarHeader {
 
     public CarDetail getDetail() {
         return detail;
+    }
+
+    public Integer getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(Integer priceRange) {
+        this.priceRange = priceRange;
+    }
+
+    public Integer getUseLengthRange() {
+        return useLengthRange;
+    }
+
+    public void setUseLengthRange(Integer useLengthRange) {
+        this.useLengthRange = useLengthRange;
     }
 
     public void setDetail(CarDetail detail) {
