@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 说明:汽车VO对象
@@ -85,29 +86,32 @@ public class CarVO {
     /**
      * 配置
      */
-    private CarConfig config;
+    private List<CarConfig> configs;
 
     /**
      * PR值
      */
     private Integer pr;
 
-    public CarVO(CarHeader car, Integer pr) {
-        this.id = car.getId();
-        this.brand = car.getBrand();
-        this.series = car.getSeries();
-        this.name = car.getName();
-        this.picture = car.getPicture();
-        this.outShow = car.getOutShow();
-        this.inShow = car.getInShow();
-        this.detail = car.getDetail();
-        this.buyPrice = car.getBuyPrice();
-        this.leasePrice = car.getLeasePrice();
-        this.level = car.getLevel();
-        this.type = car.getType();
-        this.years = car.getYears();
-        this.useLength = car.getUseLength();
-        this.config = car.getConfig();
+    public CarVO() {
+    }
+
+    public CarVO(Long id, CarBrand brand, CarSeries series, String name, FilePath picture, CarOutShow outShow, CarInShow inShow, CarDetail detail, Double buyPrice, Double leasePrice, Integer level, Integer type, Date years, Integer useLength, List<CarConfig> configs, Integer pr) {
+        this.id = id;
+        this.brand = brand;
+        this.series = series;
+        this.name = name;
+        this.picture = picture;
+        this.outShow = outShow;
+        this.inShow = inShow;
+        this.detail = detail;
+        this.buyPrice = buyPrice;
+        this.leasePrice = leasePrice;
+        this.level = level;
+        this.type = type;
+        this.years = years;
+        this.useLength = useLength;
+        this.configs = configs;
         this.pr = pr;
     }
 }

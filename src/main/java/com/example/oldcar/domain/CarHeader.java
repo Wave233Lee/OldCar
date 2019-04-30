@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 说明: 汽车基本信息   部分字段待设计分离存储
@@ -65,8 +66,8 @@ public class CarHeader {
     /**
      * 车型详情
      */
+    @OneToOne
     @ApiModelProperty("车型详情")
-    @ManyToOne
     private CarDetail detail;
 
     /**
@@ -111,9 +112,9 @@ public class CarHeader {
     /**
      * 配置
      */
-    @ManyToOne
+    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
     @ApiModelProperty("配置 真皮座椅、倒车影像等")
-    private CarConfig config;
+    private List<CarConfig> config;
 
     public Long getId() {
         return id;
@@ -203,11 +204,11 @@ public class CarHeader {
         this.useLength = useLength;
     }
 
-    public CarConfig getConfig() {
+    public List<CarConfig> getConfig() {
         return config;
     }
 
-    public void setConfig(CarConfig config) {
+    public void setConfig(List<CarConfig> config) {
         this.config = config;
     }
 

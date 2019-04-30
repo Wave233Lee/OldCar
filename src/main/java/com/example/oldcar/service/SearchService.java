@@ -49,7 +49,6 @@ public class SearchService {
         List<CarVO> carVOS = null;
         for (CarHeader c:cars
              ) {
-            CarVO carVO = new CarVO(c,0);
         }
 
 
