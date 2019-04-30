@@ -1,5 +1,6 @@
 package com.example.oldcar.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -19,12 +20,27 @@ public class CarDetail {
     private Long id;
 
     /**
+     * 对应车型
+     */
+    @JsonIgnore
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH},fetch=FetchType.LAZY, mappedBy = "detail")
+    private CarHeader car;
+
+    /**
      * 长文本
      */
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "text")
     private String description;
+
+    public CarHeader getCar() {
+        return car;
+    }
+
+    public void setCar(CarHeader car) {
+        this.car = car;
+    }
 
     public Long getId() {
         return id;

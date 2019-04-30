@@ -121,7 +121,6 @@ public class SearchService {
         List<CarVO> carVOS = null;
         for (CarHeader c:cars
              ) {
-            CarVO carVO = new CarVO(c,0);
         }
         //将处理后的cars,articles,videos封装成一个对象
 

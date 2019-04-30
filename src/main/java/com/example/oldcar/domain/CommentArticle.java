@@ -1,6 +1,7 @@
 package com.example.oldcar.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -59,6 +60,7 @@ public class CommentArticle {
         this.id = id;
     }
 
+    @JsonIgnore
     public ArticleHeader getArticle() {
         return article;
     }
