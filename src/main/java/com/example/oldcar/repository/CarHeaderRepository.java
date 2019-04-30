@@ -24,6 +24,11 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过汽车名称模糊查询
      */
+    List<CarHeader> findByNameLike(String name);
+
+    /**
+     * 通过汽车品牌名称模糊查询
+     */
     List<CarHeader> findByBrand_NameLike(String keyWord);
 
     /**

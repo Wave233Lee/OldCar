@@ -1,5 +1,6 @@
 package com.example.oldcar.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -17,6 +18,13 @@ public class CarConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
     private Long id;
+
+    /**
+     * 对应车型
+     */
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinColumn(name = "car")
+    private CarHeader car;
 
     /**
      * 配置名
@@ -37,5 +45,14 @@ public class CarConfig {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @JsonIgnore
+    public CarHeader getCar() {
+        return car;
+    }
+
+    public void setCar(CarHeader car) {
+        this.car = car;
     }
 }

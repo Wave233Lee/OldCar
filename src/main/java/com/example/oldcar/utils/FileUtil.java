@@ -15,7 +15,7 @@ public class FileUtil {
     //通过该方法将在指定目录下添加指定文件
     public static void fileupload(MultipartFile file, String filePath, String fileName) throws IOException {
         //目标目录
-        filePath = "C:/img/" + filePath;
+        filePath = "C:/img/" ;
         File dest = new File(filePath + fileName);
         // 检测是否存在目录
         if (!dest.getParentFile().exists()) {
