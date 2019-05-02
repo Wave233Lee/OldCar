@@ -1,8 +1,11 @@
 package com.example.oldcar.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 说明:买车订单
@@ -44,6 +47,15 @@ public class BuyCar{
     @ApiModelProperty("订单状态 0待付款/1待发货/2待收货/3待评价/4待售后")
     private Integer status;
 
+    /**
+     * 购买时间
+     */
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date date;
+
+
     public Long getId() {
         return id;
     }
@@ -70,6 +82,22 @@ public class BuyCar{
 
     public Integer getStatus() {
         return status;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     public void setStatus(Integer status) {
