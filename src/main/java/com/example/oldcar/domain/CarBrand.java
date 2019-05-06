@@ -21,21 +21,19 @@ public class CarBrand {
     /**
      * LOGO路径
      */
-    @ManyToOne
     @ApiModelProperty("LOGO路径")
-    private FilePath picture;
+    private String brandImg;
 
     /**
      * 名称
      */
     @ApiModelProperty("名称")
-    private String name;
+    private String brandName;
 
     /**
      * 品牌热门值
      */
     private Integer hot;
-
 
     /**
      * 备注
@@ -51,20 +49,28 @@ public class CarBrand {
         this.id = id;
     }
 
-    public FilePath getPicture() {
-        return picture;
+    public String getBrandImg() {
+        return brandImg;
     }
 
-    public void setPicture(FilePath picture) {
-        this.picture = picture;
+    public void setBrandImg(String brandImg) {
+        this.brandImg = brandImg;
     }
 
-    public String getName() {
-        return name;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
     }
 
     public String getNote() {

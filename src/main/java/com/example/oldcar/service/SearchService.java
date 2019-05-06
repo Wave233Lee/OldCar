@@ -2,7 +2,6 @@ package com.example.oldcar.service;
 
 import com.example.oldcar.domain.ArticleHeader;
 import com.example.oldcar.domain.CarHeader;
-import com.example.oldcar.domain.CarSeries;
 import com.example.oldcar.domain.VideoHeader;
 import com.example.oldcar.repository.*;
 import com.example.oldcar.vo.CarVO;
