@@ -1,8 +1,11 @@
 package com.example.oldcar.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 说明:用户收藏的东西
@@ -34,6 +37,14 @@ public class UserCollection {
      */
     private Long collectId;
 
+    /**
+     * 收藏时间
+     */
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date date;
+
     public Long getId() {
         return id;
     }
@@ -49,6 +60,15 @@ public class UserCollection {
     public void setType(Integer type) {
         this.type = type;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
 
     public Long getCollectId() {
         return collectId;

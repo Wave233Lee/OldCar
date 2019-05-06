@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 /**
- * 说明:品牌下车系
+ * 说明:品牌下车系 （暂时不用）
  *
  * @author WaveLee
  * 日期: 2019/1/20
