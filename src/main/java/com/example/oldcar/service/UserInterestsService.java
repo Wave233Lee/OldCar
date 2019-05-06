@@ -28,8 +28,8 @@ public class UserInterestsService {
     @Autowired
     private CarBrandRepository carBrandRepository;
 
-    @Autowired
-    private CarSeriesRepository carSeriesRepository;
+//    @Autowired
+//    private CarSeriesRepository carSeriesRepository;
 
     @Autowired
     private BuyCarRepository buyCarRepository;

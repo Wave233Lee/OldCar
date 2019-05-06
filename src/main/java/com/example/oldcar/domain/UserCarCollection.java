@@ -2,10 +2,7 @@ package com.example.oldcar.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * 说明:用户收藏的车型
@@ -13,6 +10,7 @@ import javax.persistence.ManyToOne;
  * @author WaveLee
  * 日期: 2019/5/2
  */
+@Entity
 public class UserCarCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

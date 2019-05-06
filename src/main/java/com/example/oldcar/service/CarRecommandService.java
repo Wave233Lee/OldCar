@@ -16,8 +16,8 @@ public class CarRecommandService {
     @Autowired
     private CarBrandRepository carBrandRepository;
 
-    @Autowired
-    private CarSeriesRepository carSeriesRepository;
+//    @Autowired
+//    private CarSeriesRepository carSeriesRepository;
 
     private void Similarity() {
 

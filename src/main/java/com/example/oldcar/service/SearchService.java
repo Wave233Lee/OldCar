@@ -4,8 +4,6 @@ import com.example.oldcar.domain.ArticleHeader;
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.VideoHeader;
 import com.example.oldcar.repository.*;
-import com.example.oldcar.vo.CarVO;
-import com.example.oldcar.vo.SearchResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -28,8 +26,8 @@ public class SearchService {
     @Autowired
     private CarHeaderRepository carHeaderRepository;
 
-    @Autowired
-    private CarSeriesRepository carSeriesRepository;
+//    @Autowired
+//    private CarSeriesRepository carSeriesRepository;
 
     @Autowired
     private ArticleHeaderRepository articleHeaderRepository;
@@ -89,7 +87,7 @@ public class SearchService {
                 tempi=i;
             }
         }
-        List<CarHeader> cars0 = carHeaderRepository.findByTypeAndSeries_NameLike(0,"%" + terms.get(tempi).getName() + "%");
+        List<CarHeader> cars0 = carHeaderRepository.findByTypeAndNameLike(0,"%" + terms.get(tempi).getName() + "%");
 
         /*car0操作
         老爷车特征向量q0,赋予初始随机值
@@ -169,7 +167,7 @@ public class SearchService {
                 tempi=i;
             }
         }
-        List<CarHeader> cars1 = carHeaderRepository.findByTypeAndSeries_NameLike(1,"%" + terms.get(tempi).getName() + "%");
+        List<CarHeader> cars1 = carHeaderRepository.findByTypeAndNameLike(1,"%" + terms.get(tempi).getName() + "%");
         /*car1操作
         进口车特征向量q1,赋予初始随机值
         */
@@ -238,7 +236,7 @@ public class SearchService {
                 tempi=i;
             }
         }
-        List<CarHeader> cars2 = carHeaderRepository.findByTypeAndSeries_NameLike(2,"%" + terms.get(tempi).getName() + "%");
+        List<CarHeader> cars2 = carHeaderRepository.findByTypeAndNameLike(2,"%" + terms.get(tempi).getName() + "%");
         /*car2操作
         二手车特征向量q2,赋予初始随机值
         */
@@ -307,7 +305,7 @@ public class SearchService {
                 tempi=i;
             }
         }
-        List<CarHeader> cars3 = carHeaderRepository.findByTypeAndSeries_NameLike(3,"%" + terms.get(tempi).getName() + "%");
+        List<CarHeader> cars3 = carHeaderRepository.findByTypeAndNameLike(3,"%" + terms.get(tempi).getName() + "%");
         /*car3操作
         新能源车特征向量q3,赋予初始随机值
         */

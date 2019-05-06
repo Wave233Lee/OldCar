@@ -45,14 +45,12 @@ public class CarHeader {
      * 外观展示
      */
     @ApiModelProperty("外观展示")
-    @ManyToOne
     private String outShow;
 
     /**
      * 内饰展示
      */
     @ApiModelProperty("内饰展示")
-    @OneToOne
     private String inShow;
 
     /**

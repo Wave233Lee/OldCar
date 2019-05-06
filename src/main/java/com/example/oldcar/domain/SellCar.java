@@ -78,8 +78,7 @@ public class SellCar {
      * 车型详情
      */
     @ApiModelProperty("车型详情")
-    @ManyToOne
-    private CarDetail detail;
+    private String detail;
 
     /**
      * 车辆所在地
@@ -178,11 +177,11 @@ public class SellCar {
         Introduction = introduction;
     }
 
-    public CarDetail getDetail() {
+    public String getDetail() {
         return detail;
     }
 
-    public void setDetail(CarDetail detail) {
+    public void setDetail(String detail) {
         this.detail = detail;
     }
 

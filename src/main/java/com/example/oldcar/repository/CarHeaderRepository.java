@@ -29,22 +29,17 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过汽车品牌名称模糊查询
      */
-    List<CarHeader> findByBrand_NameLike(String keyWord);
+    List<CarHeader> findByBrand_brandNameLike(String keyWord);
 
     /**
      * 通过汽车配置名称模糊查询
      */
-    List<CarHeader> findByConfig_NameLike(String keyWord);
-
-    /**
-     * 通过汽车车系名称模糊查询
-     */
-    List<CarHeader> findBySeries_NameLike(String keyWord);
+//    List<CarHeader> findByConfig_NameLike(String keyWord);
 
     /**
      * 分类查询
      */
-    List<CarHeader> findByTypeAndSeries_NameLike(Integer type,String keyWord);
+    List<CarHeader> findByTypeAndNameLike(Integer type,String keyWord);
 
 
     /**
