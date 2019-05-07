@@ -67,13 +67,13 @@ public class CarHeaderService {
         if(carage<=2){
             informationContent.setUseLengthRange(0);
         }
-        else if(carage <= 5){
+        else if(carage <= 4){
             informationContent.setUseLengthRange(1);
         }
-        else if(carage <= 8){
+        else if(carage <= 6){
             informationContent.setUseLengthRange(2);
         }
-        else if(carage <= 12){
+        else if(carage <= 8){
             informationContent.setUseLengthRange(3);
         }
         else

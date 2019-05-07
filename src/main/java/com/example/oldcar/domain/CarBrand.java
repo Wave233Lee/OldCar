@@ -67,6 +67,14 @@ public class CarBrand {
         this.name = name;
     }
 
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
+    }
+
     public String getNote() {
         return note;
     }
