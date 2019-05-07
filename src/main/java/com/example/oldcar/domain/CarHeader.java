@@ -30,13 +30,6 @@ public class CarHeader {
     private CarBrand brand;
 
     /**
-     * 车系
-     */
-    @ManyToOne
-    @ApiModelProperty("车系")
-    private CarSeries series;
-
-    /**
      * 车型名称
      */
     @ApiModelProperty("车型名称")
@@ -45,30 +38,26 @@ public class CarHeader {
     /**
      * 车型图
      */
-    @ManyToOne
     @ApiModelProperty("车型图")
-    private FilePath picture;
+    private String picture;
 
     /**
      * 外观展示
      */
     @ApiModelProperty("外观展示")
-    @ManyToOne
-    private CarOutShow outShow;
+    private String outShow;
 
     /**
      * 内饰展示
      */
     @ApiModelProperty("内饰展示")
-    @OneToOne
-    private CarInShow inShow;
+    private String inShow;
 
     /**
      * 车型详情
      */
-    @OneToOne
     @ApiModelProperty("车型详情")
-    private CarDetail detail;
+    private String detail;
 
     /**
      * 购买价格
@@ -142,14 +131,6 @@ public class CarHeader {
         this.brand = brand;
     }
 
-    public CarSeries getSeries() {
-        return series;
-    }
-
-    public void setSeries(CarSeries series) {
-        this.series = series;
-    }
-
     public String getName() {
         return name;
     }
@@ -158,12 +139,36 @@ public class CarHeader {
         this.name = name;
     }
 
-    public FilePath getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(FilePath picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getOutShow() {
+        return outShow;
+    }
+
+    public void setOutShow(String outShow) {
+        this.outShow = outShow;
+    }
+
+    public String getInShow() {
+        return inShow;
+    }
+
+    public void setInShow(String inShow) {
+        this.inShow = inShow;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public Double getBuyPrice() {
@@ -172,6 +177,14 @@ public class CarHeader {
 
     public void setBuyPrice(Double buyPrice) {
         this.buyPrice = buyPrice;
+    }
+
+    public Integer getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(Integer priceRange) {
+        this.priceRange = priceRange;
     }
 
     public Double getLeasePrice() {
@@ -214,42 +227,6 @@ public class CarHeader {
         this.useLength = useLength;
     }
 
-    public List<CarConfig> getConfig() {
-        return config;
-    }
-
-    public void setConfig(List<CarConfig> config) {
-        this.config = config;
-    }
-
-    public CarOutShow getOutShow() {
-        return outShow;
-    }
-
-    public void setOutShow(CarOutShow outShow) {
-        this.outShow = outShow;
-    }
-
-    public CarInShow getInShow() {
-        return inShow;
-    }
-
-    public void setInShow(CarInShow inShow) {
-        this.inShow = inShow;
-    }
-
-    public CarDetail getDetail() {
-        return detail;
-    }
-
-    public Integer getPriceRange() {
-        return priceRange;
-    }
-
-    public void setPriceRange(Integer priceRange) {
-        this.priceRange = priceRange;
-    }
-
     public Integer getUseLengthRange() {
         return useLengthRange;
     }
@@ -258,7 +235,11 @@ public class CarHeader {
         this.useLengthRange = useLengthRange;
     }
 
-    public void setDetail(CarDetail detail) {
-        this.detail = detail;
+    public List<CarConfig> getConfig() {
+        return config;
+    }
+
+    public void setConfig(List<CarConfig> config) {
+        this.config = config;
     }
 }

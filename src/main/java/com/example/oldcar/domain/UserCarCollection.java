@@ -13,6 +13,7 @@ import java.util.Date;
  * @author WaveLee
  * 日期: 2019/5/2
  */
+@Entity
 public class UserCarCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

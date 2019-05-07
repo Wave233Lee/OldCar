@@ -22,11 +22,6 @@ public class CarVO {
     private CarBrand brand;
 
     /**
-     * 车系
-     */
-    private CarSeries series;
-
-    /**
      * 车型名称
      */
     private String name;
@@ -96,10 +91,9 @@ public class CarVO {
     public CarVO() {
     }
 
-    public CarVO(Long id, CarBrand brand, CarSeries series, String name, FilePath picture, CarOutShow outShow, CarInShow inShow, CarDetail detail, Double buyPrice, Double leasePrice, Integer level, Integer type, Date years, Integer useLength, List<CarConfig> configs, Integer pr) {
+    public CarVO(Long id, CarBrand brand, String name, FilePath picture, CarOutShow outShow, CarInShow inShow, CarDetail detail, Double buyPrice, Double leasePrice, Integer level, Integer type, Date years, Integer useLength, List<CarConfig> configs, Integer pr) {
         this.id = id;
         this.brand = brand;
-        this.series = series;
         this.name = name;
         this.picture = picture;
         this.outShow = outShow;
