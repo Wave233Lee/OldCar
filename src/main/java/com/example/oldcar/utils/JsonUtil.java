@@ -2,7 +2,7 @@ package com.example.oldcar.utils;
 
 import java.io.*;
 
-public class JsonUtils {
+public class JsonUtil {
     /**
      * 读取json文件
      */

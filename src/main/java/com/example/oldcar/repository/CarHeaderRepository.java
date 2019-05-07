@@ -1,5 +1,6 @@
 package com.example.oldcar.repository;
 
+import com.example.oldcar.domain.CarBrand;
 import com.example.oldcar.domain.CarHeader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,15 @@ import java.util.List;
  * 日期: 2018/12/27
  */
 public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
+    /**
+     * 推荐需要的精确查询
+     */
+    List<CarHeader> findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+
+
     /**
      * 通过汽车品牌查询
      */
