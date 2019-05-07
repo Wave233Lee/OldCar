@@ -16,16 +16,16 @@ public class CarLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("主键id，自增")
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty("车级名称")
     private String levelName;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

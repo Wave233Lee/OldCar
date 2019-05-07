@@ -131,7 +131,7 @@ public class CarRecommendService {
         Long carBrandId = carBrand.getId();
         Long carId = car.getId();
         Integer carHot = carBrand.getHot();
-        Integer level = car.getLevel();
+        Integer level = car.getLevel().getId();
         Integer pricerange = car.getPriceRange();
         Integer uselengthrange = car.getUseLengthRange();
 
@@ -228,7 +228,7 @@ public class CarRecommendService {
                 JSONObject obj = carsFrequency.get(i);
                 CarHeader newCar = carHeaderRepository.getOne(obj.getLong("id"));
                 Integer newHot = newCar.getBrand().getHot();
-                Integer newLevel = newCar.getLevel();
+                Integer newLevel = newCar.getLevel().getId();
                 Integer newPriceRange = newCar.getPriceRange();
                 Integer newUseLengthRange = newCar.getUseLengthRange();
                 double similirity = hotMatrix[carHot][newHot] * Wh + levelMatrix[level][newLevel] * Wl +

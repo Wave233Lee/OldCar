@@ -22,6 +22,9 @@ public class UserInterestsService {
     private CarBrandRepository carBrandRepository;
 
     @Autowired
+    private CarLevelRepository carLevelRepository;
+
+    @Autowired
     private BuyCarRepository buyCarRepository;
 
     @Autowired
@@ -174,7 +177,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonLevel.length(); i++){
                 JSONObject newJson = jsonLevel.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level(user,carLevelRepository.getOne(a)).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_Level(user,a).size() * Wb)/base);
                 newJson.put(newJson.getString("id"),newvalue);
             }
