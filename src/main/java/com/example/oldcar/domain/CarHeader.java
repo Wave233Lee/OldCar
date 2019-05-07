@@ -77,10 +77,11 @@ public class CarHeader {
     private Double leasePrice;
 
     /**
-     * 级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等
+     * 级别
      */
-    @ApiModelProperty("级别 0,1,2,3... 分别表示紧凑型、小型车、中型车、SUV等")
-    private Integer level;
+    @ManyToOne
+    @ApiModelProperty("级别 紧凑型、小型车、中型车、SUV等")
+    private CarLevel level;
 
     /**
      * 分类 0,1,2,3   分别表示老爷车、平行进口车、二手车和新能源车
@@ -195,11 +196,11 @@ public class CarHeader {
         this.leasePrice = leasePrice;
     }
 
-    public Integer getLevel() {
+    public CarLevel getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(CarLevel level) {
         this.level = level;
     }
 
