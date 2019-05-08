@@ -24,11 +24,12 @@ public class HandleExceptions {
 			return ResultUtil.error(eduException);
 		} else if (e instanceof MethodArgumentTypeMismatchException) {
 			logger.error("【系统异常】 {}", e.getMessage());
+			e.printStackTrace();
 			// 参数类型不匹配
 			return ResultUtil.error(new CarException(EnumExceptions.ARGB_MISMATCH_EXCEPTION));
 		} else {
 			logger.error("【系统异常】 {}", e.getMessage());
-
+			e.printStackTrace();
 			if (e.getMessage().contains("Request method")) {
 				// 请求方法不匹配
 				return ResultUtil.error(new CarException(EnumExceptions.REQUEST_METHOD));

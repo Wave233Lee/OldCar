@@ -4,6 +4,8 @@ import com.example.oldcar.domain.ArticleHeader;
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.VideoHeader;
 import com.example.oldcar.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -40,6 +42,10 @@ public class SearchService {
 
     @Autowired
     private AccessoriesHeaderRepository accessoriesHeaderRepository;
+    /**
+     * 获取日志对象
+     */
+    private final static Logger logger = LoggerFactory.getLogger(SearchService.class);
 
     private static final double ALPHA=0.85;
     private static final double Distance=0.0000001;
@@ -98,7 +104,7 @@ public class SearchService {
             Double temp=Math.random();
             q0.add(temp);
         }
-        printMatrix(getG(ALPHA,carsize0));
+//        printMatrix(getG(ALPHA,carsize0));
         List<Double> pageRank0 = calPageRank(q0, ALPHA,carsize0);
         //排序
         for(int i=0;i<carsize0;i++){
@@ -171,13 +177,14 @@ public class SearchService {
         /*car1操作
         进口车特征向量q1,赋予初始随机值
         */
-        List<Double> q1=new ArrayList<Double>();
+        List<Double> q1=new ArrayList<>();
         int carsize1=cars1.size();
         for(int i=0;i<carsize1;i++){
             Double temp=Math.random();
             q1.add(temp);
         }
-        printMatrix(getG(ALPHA,carsize1));
+
+//        printMatrix(getG(ALPHA,carsize1));
         List<Double> pageRank1 = calPageRank(q1, ALPHA,carsize1);
         //排序
         for(int i=0;i<carsize1;i++){
@@ -246,7 +253,7 @@ public class SearchService {
             Double temp=Math.random();
             q2.add(temp);
         }
-        printMatrix(getG(ALPHA,carsize2));
+//        printMatrix(getG(ALPHA,carsize2));
         List<Double> pageRank2 = calPageRank(q2, ALPHA,carsize2);
         //排序
         for(int i=0;i<carsize2;i++){
@@ -315,7 +322,7 @@ public class SearchService {
             Double temp=Math.random();
             q3.add(temp);
         }
-        printMatrix(getG(ALPHA,carsize3));
+//        printMatrix(getG(ALPHA,carsize3));
         List<Double> pageRank3 = calPageRank(q3, ALPHA,carsize3);
         //排序
         for(int i=0;i<carsize3;i++){
@@ -426,7 +433,7 @@ public class SearchService {
                 if(temp2==j){
                     s.get(i).add(new Double(1 / 2.0));
                 }
-                else{
+                if(temp2!=j&&temp1!=j){
                     s.get(i).add(new Double(0));
                 }
             }
@@ -434,7 +441,7 @@ public class SearchService {
         //矩阵转置
         for(int i=0;i<n;i++){
             w.add(new ArrayList<Double>());
-            for(int j=0;j<n;i++){
+            for(int j=0;j<n;j++){
                 s.get(i).add(s.get(j).get(i));
             }
         }
@@ -455,15 +462,15 @@ public class SearchService {
     //pagerank
     public static List<Double> calPageRank(List<Double> q1,double a,int n){
         List<List<Double>> g=getG(a,n);
-        List<Double> q=null;
+        List<Double> q;
         while(true){
             q=vectorMulMatrix(g,q1);
             double dis=calDistance(q,q1);
-            System.out.println(dis);
+//            System.out.println(dis);
             if(dis<=Distance){
-                System.out.println("q1:");
+//                System.out.println("q1:");
                 printVec(q1);
-                System.out.println("q:");
+//                System.out.println("q:");
                 printVec(q);
                 break;
             }
@@ -480,14 +487,14 @@ public class SearchService {
     }
     //矩阵*向量
     public static List<Double> vectorMulMatrix(List<List<Double>> m,List<Double> v){
-        if(m==null||v==null||m.size()<0||m.get(0).size()!=v.size()){
+        if(m == null || v == null){
             return null;
         }
         List<Double> list=new ArrayList<Double>();
         for(int i=0;i<m.size();i++){
             double sum=0;
             for(int j=0;j<m.get(i).size();j++){
-                double temp=m.get(i).get(j).doubleValue()*v.get(j).doubleValue();
+                double temp= m.get(i).get(j) * v.get(j);
                 sum+=temp;
             }
             list.add(sum);
