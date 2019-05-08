@@ -130,7 +130,7 @@ public class CarRecommendService {
         Long carBrandId = carBrand.getId();
         Long carId = car.getId();
         int carHot = carBrand.getHot();
-        int level = car.getLevel();
+        int level = car.getLevel().getId();
         int pricerange = car.getPriceRange();
         int uselengthrange = car.getUseLengthRange();
 
@@ -232,7 +232,7 @@ public class CarRecommendService {
                 CarHeader newCar = carHeaderRepository.getOne(obj.getLong("id"));
                 logger.info(String.valueOf(newCar.getId()));
                 int newHot = newCar.getBrand().getHot();
-                int newLevel = newCar.getLevel();
+                int newLevel = newCar.getLevel().getId();
                 int newPriceRange = newCar.getPriceRange();
                 int newUseLengthRange = newCar.getUseLengthRange();
                 double similarity = hotMatrix[carHot][newHot] * Wh + levelMatrix[level][newLevel] * Wl +

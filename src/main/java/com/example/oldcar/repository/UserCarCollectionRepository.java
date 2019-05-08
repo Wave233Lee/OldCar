@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserCarCollectionRepository extends JpaRepository<UserCarCollection,Long> {
     List<UserCarCollection> findByUser(User user);
     List<UserCarCollection> findByUserAndCar_Brand(User user, CarBrand brand);
-    List<UserCarCollection> findByUserAndCar_Level(User user, CarLevel level);
+    List<UserCarCollection> findByUserAndCar_Level_Id(User user, Integer level);
     List<UserCarCollection> findByUserAndCar_PriceRange(User user, Integer priceRange);
     List<UserCarCollection> findByUserAndCar_UseLengthRange(User user, Integer useLengthRange);
     UserCarCollection findFirstByUserOrderByIdDesc(User user);

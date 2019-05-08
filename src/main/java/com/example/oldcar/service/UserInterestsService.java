@@ -245,7 +245,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonLevel.length(); i++){
                 JSONObject newJson = jsonLevel.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level_Id(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_Level(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonLevel.put(newJson);
@@ -376,22 +376,22 @@ public class UserInterestsService {
             JSONObject obj = jsonRecommendBrand.getJSONObject(i);
             int num = obj.getInt("value");
             Long id = obj.getLong("id");
-            List<CarHeader> InitRecommend = carHeaderRepository.findByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+            List<CarHeader> InitRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
             if (InitRecommend.size() < num){
                 if(!InitRecommend.isEmpty()) UserRecommendCar.addAll(InitRecommend);
 
                 int rest = num - InitRecommend.size();
-                List<CarHeader> RestRecommend = carHeaderRepository.findByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                List<CarHeader> RestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
                 if (RestRecommend.size() < rest) {
                     if(!RestRecommend.isEmpty()) UserRecommendCar.addAll(RestRecommend);
 
                     int rrest = rest - RestRecommend.size();
-                    List<CarHeader> RrestRecommend = carHeaderRepository.findByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                    List<CarHeader> RrestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
                     if (RrestRecommend.size() < rrest) {
                         if(!RrestRecommend.isEmpty()) UserRecommendCar.addAll(RrestRecommend);
 
                         int rrrest = rrest - RrestRecommend.size();
-                        List<CarHeader> RrrestRecommend = carHeaderRepository.findByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                        List<CarHeader> RrrestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRangeNot(id, maxLevel, maxPriceRange, maxUseLengthRange);
                         if (RrrestRecommend.size() < rrrest) {
                             if(!RrrestRecommend.isEmpty()) UserRecommendCar.addAll(RrrestRecommend);
 
