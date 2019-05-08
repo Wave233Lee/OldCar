@@ -249,7 +249,7 @@ public class CarRecommendService {
         }
         //按照浏览的车推荐
         else{
-            List<CarHeader> InitRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(
+            List<CarHeader> InitRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevel_IdAndPriceRangeAndUseLengthRange(
                     carBrandId, level, pricerange, uselengthrange);
             int rest = recommendCarNum - InitRecommend.size();
             for(int i=0; i<InitRecommend.size(); i++){

@@ -19,10 +19,10 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 推荐需要的精确查询
      */
-    List<CarHeader> findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevel_IdAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevel_IdNotAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRangeNot(Long id,Integer level,Integer pricerange,Integer uselengthrange);
 
 
     /**
@@ -55,8 +55,8 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过汽车级别查询
      */
-    Page<CarHeader> findByLevel(Integer level,Pageable pageable);
-    List<CarHeader> findByLevel(Integer level);
+    Page<CarHeader> findByLevel_Id(Integer level,Pageable pageable);
+    List<CarHeader> findByLevel_Id(Integer level);
 
     /**
      * 通过价格区间查询
