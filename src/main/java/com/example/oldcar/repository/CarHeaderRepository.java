@@ -19,10 +19,12 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 推荐需要的精确查询
      */
-    List<CarHeader> findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
-    List<CarHeader> findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(Long id,Integer level,Integer pricerange,Integer uselengthrange);
+    List<CarHeader> findFirst10ByBrand_IdNotOrderByUseLengthRange(Long id);
+    List<CarHeader> findFirst10ByOrderByUseLengthRange();
 
 
     /**

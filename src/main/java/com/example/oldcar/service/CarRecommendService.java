@@ -9,6 +9,8 @@ import com.example.oldcar.utils.MatrixUtil;
 import com.example.oldcar.utils.MyComparatorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +26,25 @@ public class CarRecommendService {
     @Autowired
     private UserCarHistoryRepository userCarHistoryRepository;
 
-    public String path = "E:/matrix/";
+    private String path = "E:/matrix/";
 
     //品牌热门值个数
-    public Integer hotnum = 5;
+    private Integer hotnum = 5;
 
     //车级个数
-    public Integer levelnum = 5;
+    private Integer levelnum = 5;
 
     //价格区间个数
-    public Integer pricerangenum = 10;
+    private Integer pricerangenum = 10;
 
     //车龄区间个数
-    public Integer uselengthrangenum = 5;
+    private Integer uselengthrangenum = 5;
 
-    private void BrandSimilarity() throws IOException {
+    private final static Logger logger = LoggerFactory.getLogger(CarRecommendService.class);
+
+    public void BrandSimilarity() throws IOException {
         //创建文件
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"brand.txt";
-        System.out.println(fileName);
+        String fileName = path+"brand.txt";
         File file = new File(fileName);
         if(file.exists()){
             return;
@@ -60,10 +62,9 @@ public class CarRecommendService {
         MatrixUtil.writeMatrixFile(fileName,hotMatrix,hotnum);
     }
 
-    private void LevelSimilarity() throws IOException {
+    public void LevelSimilarity() throws IOException {
         //创建文件
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"level.txt";
+        String fileName = path+"level.txt";
         System.out.println(fileName);
         File file = new File(fileName);
         if(file.exists()){
@@ -74,7 +75,7 @@ public class CarRecommendService {
         Double[][] levelMatrix = new Double[levelnum][levelnum];
         for(int i=0; i<levelnum; i++){
             for(int j=0; j<levelnum; j++){
-                levelMatrix[i-1][j-1] = (double)(levelnum-Math.abs(i-j))/(double)levelnum;
+                levelMatrix[i][j] = (double)(levelnum-Math.abs(i-j))/(double)levelnum;
             }
         }
 
@@ -82,10 +83,9 @@ public class CarRecommendService {
         MatrixUtil.writeMatrixFile(fileName,levelMatrix,levelnum);
     }
 
-    private void PriceRangeSimilarity() throws IOException {
+    public void PriceRangeSimilarity() throws IOException {
         //创建文件
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"pricerange.txt";
+        String fileName = path+"pricerange.txt";
         System.out.println(fileName);
         File file = new File(fileName);
         if(file.exists()){
@@ -96,7 +96,7 @@ public class CarRecommendService {
         Double[][] pricerangeMatrix = new Double[pricerangenum][pricerangenum];
         for(int i=0; i<pricerangenum; i++){
             for(int j=0; j<pricerangenum; j++){
-                pricerangeMatrix[i-1][j-1] = (double)(pricerangenum-Math.abs(i-j))/(double)pricerangenum;
+                pricerangeMatrix[i][j] = (double)(pricerangenum-Math.abs(i-j))/(double)pricerangenum;
             }
         }
 
@@ -104,10 +104,9 @@ public class CarRecommendService {
         MatrixUtil.writeMatrixFile(fileName,pricerangeMatrix,pricerangenum);
     }
 
-    private void UseLengthRangeSimilarity() throws IOException {
+    public void UseLengthRangeSimilarity() throws IOException {
         //创建文件
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"uselengthrange.txt";
+        String fileName = path+"uselengthrange.txt";
         System.out.println(fileName);
         File file = new File(fileName);
         if(file.exists()){
@@ -118,7 +117,7 @@ public class CarRecommendService {
         Double[][] uselengthrangeMatrix = new Double[uselengthrangenum][uselengthrangenum];
         for(int i=0; i<uselengthrangenum; i++){
             for(int j=0; j<uselengthrangenum; j++){
-                uselengthrangeMatrix[i-1][j-1] = (double)(uselengthrangenum-Math.abs(i-j))/(double)uselengthrangenum;
+                uselengthrangeMatrix[i][j] = (double)(uselengthrangenum-Math.abs(i-j))/(double)uselengthrangenum;
             }
         }
 
@@ -130,55 +129,52 @@ public class CarRecommendService {
         CarBrand carBrand = car.getBrand();
         Long carBrandId = carBrand.getId();
         Long carId = car.getId();
-        Integer carHot = carBrand.getHot();
-        Integer level = car.getLevel();
-        Integer pricerange = car.getPriceRange();
-        Integer uselengthrange = car.getUseLengthRange();
+        int carHot = carBrand.getHot();
+        int level = car.getLevel();
+        int pricerange = car.getPriceRange();
+        int uselengthrange = car.getUseLengthRange();
 
-        Double Wh = 0.3;
-        Double Wl = 0.2;
-        Double Wp = 0.2;
-        Double Wu = 0.3;
+        double Wh = 0.3;
+        double Wl = 0.2;
+        double Wp = 0.2;
+        double Wu = 0.3;
 
         //依次取出数组
-       String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"brand.txt";
-        Double[][] hotMatrix = new Double[hotnum][hotnum];
+        String fileName = path+"brand.txt";
+        Double[][] hotMatrix;
         hotMatrix = MatrixUtil.readMatrixFile(fileName,hotnum);
 
-        fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"level.txt";
-        Double[][] levelMatrix = new Double[levelnum][levelnum];
+        fileName = path+"level.txt";
+        Double[][] levelMatrix;
         levelMatrix = MatrixUtil.readMatrixFile(fileName,levelnum);
 
-        fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"pricerange.txt";
-        Double[][] pricerangeMatrix = new Double[pricerangenum][pricerangenum];
+        fileName = path+"pricerange.txt";
+        Double[][] pricerangeMatrix;
         pricerangeMatrix = MatrixUtil.readMatrixFile(fileName,pricerangenum);
 
-        fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"uselengthrange.txt";
-        Double[][] uselengthrangeMatrix = new Double[uselengthrangenum][uselengthrangenum];
+        fileName = path+"uselengthrange.txt";
+        Double[][] uselengthrangeMatrix;
         uselengthrangeMatrix = MatrixUtil.readMatrixFile(fileName,uselengthrangenum);
 
-        //根据车所推荐车的个数
-        int recommendCarNum = 10;
-
         //根据车所推荐的车的集合
-        List<CarHeader> CarRecommendCar = null;
+        List<CarHeader> CarRecommendCar = new ArrayList<>();
 
         //看过car车的所有用户集合
-        List<User> users = null;
+        List<User> users = new ArrayList<>();
 
         List<UserCarHistory> userCarHistories = userCarHistoryRepository.findDistinctUserByCar(car);
         for (UserCarHistory a: userCarHistories
              ) {
             users.add(a.getUser());
         }
+
+        //根据车所推荐车的个数
+        int recommendCarNum = 10;
+
         //按照相似度推荐
         if(users.size()>1){
             //获取用户集合浏览过的所有车的集合
-            List<CarHeader> allUsersCars = null;
+            List<CarHeader> allUsersCars = new ArrayList<>();
             for (User a: users
                  ) {
                 List<UserCarHistory> userCarHistoryList = userCarHistoryRepository.findByUser(a);
@@ -189,8 +185,8 @@ public class CarRecommendService {
             }
 
             //按照频次排序
-            List<JSONObject> carsFrequency = new ArrayList<JSONObject>();
-            Map<Long,Integer> map = new HashMap<Long,Integer>();
+            List<JSONObject> carsFrequency = new ArrayList<>();
+            Map<Long,Integer> map = new HashMap<>();
             for (CarHeader a:allUsersCars
                  ) {
                 if(map.containsKey(a.getId())){
@@ -204,18 +200,24 @@ public class CarRecommendService {
                 for(Map.Entry<Long,Integer> entry: map.entrySet()){
                     CarRecommendCar.add(carHeaderRepository.getOne(entry.getKey()));
                 }
-                Integer rest = recommendCarNum - map.size();
                 List<CarHeader> RestCar = carHeaderRepository.findByBrand_Id(carBrandId);
-                for(int i=0; i<RestCar.size(); i++){
-                    if(! map.containsKey(RestCar.get(i).getId())){
-                        CarRecommendCar.add(RestCar.get(i));
+                if(RestCar.size() <= recommendCarNum-CarRecommendCar.size()){
+                    RestCar.addAll(carHeaderRepository.findFirst10ByOrderByUseLengthRange());
+                }
+                for (CarHeader a:RestCar
+                     ) {
+                    if(! map.containsKey(a.getId())){
+                        CarRecommendCar.add(a);
                     }
                     if(CarRecommendCar.size() == recommendCarNum) return CarRecommendCar;
                 }
             }
 
             for(Map.Entry<Long,Integer> entry: map.entrySet()){
-                JSONObject obj = null;
+                JSONObject obj = new JSONObject();
+                if(entry.getKey().equals(carBrandId)){
+                    continue;
+                }
                 obj.put("id",entry.getKey());
                 obj.put("value",entry.getValue());
                 carsFrequency.add(obj);
@@ -225,51 +227,61 @@ public class CarRecommendService {
             //更新相似度后排序
             int maxFrequency = carsFrequency.get(0).getInt("value");
             for(int i=0; i<carsFrequency.size(); i++){
+                logger.info(String.valueOf(i));
                 JSONObject obj = carsFrequency.get(i);
                 CarHeader newCar = carHeaderRepository.getOne(obj.getLong("id"));
-                Integer newHot = newCar.getBrand().getHot();
-                Integer newLevel = newCar.getLevel();
-                Integer newPriceRange = newCar.getPriceRange();
-                Integer newUseLengthRange = newCar.getUseLengthRange();
-                double similirity = hotMatrix[carHot][newHot] * Wh + levelMatrix[level][newLevel] * Wl +
+                logger.info(String.valueOf(newCar.getId()));
+                int newHot = newCar.getBrand().getHot();
+                int newLevel = newCar.getLevel();
+                int newPriceRange = newCar.getPriceRange();
+                int newUseLengthRange = newCar.getUseLengthRange();
+                double similarity = hotMatrix[carHot][newHot] * Wh + levelMatrix[level][newLevel] * Wl +
                         pricerangeMatrix[pricerange][newPriceRange] * Wp + uselengthrangeMatrix[uselengthrange][newUseLengthRange] * Wu;
-                Double value = (double)(obj.getInt("value")/maxFrequency) * similirity;
-                JSONObject newobj = null;
+                logger.info(String.valueOf(similarity));
+                logger.info("===============================");
+                double value = (double)(obj.getInt("value")/maxFrequency) * similarity;
+                JSONObject newobj = new JSONObject();
                 newobj.put("id",obj.getLong("id"));
                 newobj.put("value",value);
                 carsFrequency.set(i,newobj);
             }
+            logger.info("||||||||||||||||||||||||||||||||||");
             carsFrequency.sort(new MyComparatorUtil());
 
-            for(int i=0; i<recommendCarNum; i++){
-                JSONObject obj = carsFrequency.get(i);
-                CarHeader theCar = carHeaderRepository.getOne(obj.getLong("id"));
-                CarRecommendCar.add(theCar);
+            for (JSONObject a:carsFrequency
+                 ) {
+                CarRecommendCar.add(carHeaderRepository.getOne(a.getLong("id")));
+                if(CarRecommendCar.size() == recommendCarNum) break;
+            }
+            if(CarRecommendCar.size() < recommendCarNum){
+                int rest = recommendCarNum - CarRecommendCar.size();
+                List<CarHeader> restcars = carHeaderRepository.findFirst10ByOrderByUseLengthRange();
+                for(int i=0; i<rest; i++){
+                    CarRecommendCar.add(restcars.get(i));
+                }
             }
         }
         //按照浏览的车推荐
         else{
-            List<CarHeader> InitRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(
-                    carBrandId, level, pricerange, uselengthrange);
-            int rest = recommendCarNum - InitRecommend.size();
-            for(int i=0; i<InitRecommend.size(); i++){
-                CarHeader c = InitRecommend.get(i);
-                if(!c.getId().equals(carId)){
+            List<CarHeader> InitRecommend = carHeaderRepository.findByBrand_Id(carBrandId);
+            if(InitRecommend.size() <= recommendCarNum){
+                InitRecommend.addAll(carHeaderRepository.findFirst10ByBrand_IdNotOrderByUseLengthRange(carBrandId));
+                for (CarHeader a:InitRecommend
+                ) {
+                    if(!a.getId().equals(carId)) CarRecommendCar.add(a);
+                    if(CarRecommendCar.size() == recommendCarNum) break;
+                }
+            } else{
+                for(int i=0; i<recommendCarNum; i++){
                     CarRecommendCar.add(InitRecommend.get(i));
-                }
-                else{
-                    rest++;
-                    recommendCarNum++;
-                }
-            }
-            if(InitRecommend.size() < recommendCarNum){
-                List<CarHeader> RestRecommend = carHeaderRepository.findByBrand_Id(carBrandId);
-                for(int i=0; i<rest; i++){
-                    CarRecommendCar.add(RestRecommend.get(i));
                 }
             }
         }
+        for (CarHeader a:CarRecommendCar
+        ) {
+            logger.info(String.valueOf(a.getId()));
+            logger.info("==================================");
+        }
         return CarRecommendCar;
     }
-
 }
