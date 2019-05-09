@@ -1,5 +1,6 @@
 package com.example.oldcar.controller;
 
+import com.example.oldcar.domain.AccessoriesHeader;
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.Result;
 import com.example.oldcar.service.SearchService;
@@ -57,5 +58,11 @@ public class SearchController {
     public Result<List<CarHeader>> findNewCar(@RequestParam String keyWord){
         return ResultUtil.success(searchService.searchCar3(keyWord));
     }
-
+    /**
+     * 根据关键词查询配件
+     */
+    @GetMapping(value = "/getImportCar")
+    public Result<List<AccessoriesHeader>> findAccessories(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.searchAccessories(keyWord));
+    }
 }
