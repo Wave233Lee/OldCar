@@ -7,6 +7,7 @@ import com.example.oldcar.domain.VideoHeader;
 import com.example.oldcar.exception.CarException;
 import com.example.oldcar.exception.EnumExceptions;
 import com.example.oldcar.repository.*;
+import com.example.oldcar.vo.CarVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +101,8 @@ public class SearchService {
         System.out.println("cars0:");
         System.out.println(cars0);
         if(cars0.size()==0){
-            throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+            return cars0;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
         }
         /*car0操作
         老爷车特征向量q0,赋予初始随机值
@@ -185,7 +187,8 @@ public class SearchService {
         System.out.println(cars1);
         if(cars1.size()==0){
             System.out.println("None");
-            throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+            return cars1;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
         }
         /*car1操作
         进口车特征向量q1,赋予初始随机值
@@ -261,7 +264,8 @@ public class SearchService {
         }
         List<CarHeader> cars2 = carHeaderRepository.findByTypeAndNameLike(2,"%" + terms.get(tempi).getName() + "%");
         if(cars2.size()==0){
-            throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+            return cars2;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
         }
         /*car2操作
         二手车特征向量q2,赋予初始随机值
@@ -333,7 +337,8 @@ public class SearchService {
         }
         List<CarHeader> cars3 = carHeaderRepository.findByTypeAndNameLike(3,"%" + terms.get(tempi).getName() + "%");
         if(cars3.size()==0){
-            throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+            return cars3;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
         }
         /*car3操作
         新能源车特征向量q3,赋予初始随机值
@@ -405,7 +410,8 @@ public class SearchService {
         }
         List<AccessoriesHeader> accessories = accessoriesHeaderRepository.findByNameLike("%" + terms.get(tempi).getName() + "%");
         if(accessories.size()==0){
-            throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+            return accessories;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
         }
         return accessories;
     }
@@ -419,6 +425,10 @@ public class SearchService {
         List<VideoHeader> videos = videoHeaderRepository.findByPublisher_UserName("%" + keyWord + "%");
         videos.addAll(videoHeaderRepository.findByTitleLike("%" + keyWord + "%"));
         return videos;
+    }
+    public CarVO searchall(String keyWord){
+        CarVO carVO = new CarVO(fenci(keyWord),searchCar0(keyWord),searchCar1(keyWord),searchCar2(keyWord),searchCar3(keyWord),searchAccessories(keyWord),article(keyWord),video(keyWord));
+        return carVO;
     }
     //打印矩阵
     public static void printMatrix(List<List<Double>> m){
@@ -615,4 +625,5 @@ public class SearchService {
         }
         return list;
     }
+
 }

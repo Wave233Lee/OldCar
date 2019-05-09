@@ -5,6 +5,7 @@ import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.Result;
 import com.example.oldcar.service.SearchService;
 import com.example.oldcar.utils.ResultUtil;
+import com.example.oldcar.vo.CarVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +62,15 @@ public class SearchController {
     /**
      * 根据关键词查询配件
      */
-    @GetMapping(value = "/getImportCar")
+    @GetMapping(value = "/getAccessories")
     public Result<List<AccessoriesHeader>> findAccessories(@RequestParam String keyWord){
         return ResultUtil.success(searchService.searchAccessories(keyWord));
+    }
+    /**
+     * 根据关键词查询所有
+     */
+    @GetMapping(value = "/getAll")
+    public Result<CarVO> findall(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.searchall(keyWord));
     }
 }
