@@ -32,7 +32,7 @@ public class CarRecommendService {
     private Integer hotnum = 5;
 
     //车级个数
-    private Integer levelnum = 5;
+    private Integer levelnum = 18;
 
     //价格区间个数
     private Integer pricerangenum = 10;
@@ -73,8 +73,8 @@ public class CarRecommendService {
         file.createNewFile();
 
         Double[][] levelMatrix = new Double[levelnum][levelnum];
-        for(int i=0; i<levelnum; i++){
-            for(int j=0; j<levelnum; j++){
+        for(int i=1; i<=levelnum; i++){
+            for(int j=1; j<=levelnum; j++){
                 levelMatrix[i][j] = (double)(levelnum-Math.abs(i-j))/(double)levelnum;
             }
         }
@@ -125,7 +125,8 @@ public class CarRecommendService {
         MatrixUtil.writeMatrixFile(fileName,uselengthrangeMatrix,uselengthrangenum);
     }
 
-    public List<CarHeader> CarRecommend(CarHeader car) throws JSONException {
+    public List<CarHeader> CarRecommend(Long id) throws JSONException {
+        CarHeader car = carHeaderRepository.getOne(id);
         CarBrand carBrand = car.getBrand();
         Long carBrandId = carBrand.getId();
         Long carId = car.getId();
@@ -215,7 +216,7 @@ public class CarRecommendService {
 
             for(Map.Entry<Long,Integer> entry: map.entrySet()){
                 JSONObject obj = new JSONObject();
-                if(entry.getKey().equals(carBrandId)){
+                if(entry.getKey().equals(carId)){
                     continue;
                 }
                 obj.put("id",entry.getKey());
@@ -227,25 +228,22 @@ public class CarRecommendService {
             //更新相似度后排序
             int maxFrequency = carsFrequency.get(0).getInt("value");
             for(int i=0; i<carsFrequency.size(); i++){
-                logger.info(String.valueOf(i));
                 JSONObject obj = carsFrequency.get(i);
                 CarHeader newCar = carHeaderRepository.getOne(obj.getLong("id"));
-                logger.info(String.valueOf(newCar.getId()));
+
                 int newHot = newCar.getBrand().getHot();
                 int newLevel = newCar.getLevel().getId();
                 int newPriceRange = newCar.getPriceRange();
                 int newUseLengthRange = newCar.getUseLengthRange();
-                double similarity = hotMatrix[carHot][newHot] * Wh + levelMatrix[level][newLevel] * Wl +
+                double similarity = hotMatrix[carHot-1][newHot-1] * Wh + levelMatrix[level-1][newLevel-1] * Wl +
                         pricerangeMatrix[pricerange][newPriceRange] * Wp + uselengthrangeMatrix[uselengthrange][newUseLengthRange] * Wu;
-                logger.info(String.valueOf(similarity));
-                logger.info("===============================");
+
                 double value = (double)(obj.getInt("value")/maxFrequency) * similarity;
                 JSONObject newobj = new JSONObject();
                 newobj.put("id",obj.getLong("id"));
                 newobj.put("value",value);
                 carsFrequency.set(i,newobj);
             }
-            logger.info("||||||||||||||||||||||||||||||||||");
             carsFrequency.sort(new MyComparatorUtil());
 
             for (JSONObject a:carsFrequency

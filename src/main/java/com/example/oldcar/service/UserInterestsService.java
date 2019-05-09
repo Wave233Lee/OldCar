@@ -29,6 +29,9 @@ public class UserInterestsService {
     @Autowired
     private  UserCarCollectionRepository userCarCollectionRepository;
 
+    @Autowired
+    private  UserRepository userRepository;
+
     private String path = "E:/json/";
 
     private String init_timelog = "1970-01-01 00:00:00";
@@ -42,6 +45,7 @@ public class UserInterestsService {
         ) {
             Double carprice = informationContent.getBuyPrice();
             Integer carage = informationContent.getUseLength();
+
             //价格区间转换
             if(carprice<=3.0){
                 informationContent.setPriceRange(0);
@@ -72,6 +76,7 @@ public class UserInterestsService {
             }
             else
                 informationContent.setPriceRange(9);
+
             //车龄区间转换
             if(carage<=2){
                 informationContent.setUseLengthRange(0);
@@ -137,7 +142,7 @@ public class UserInterestsService {
         for(int i=0; i<levelType; i++){
             double value = 0.0;
             if(carsnum != 0)
-                value = (double)buyCarRepository.findByCar_Level(i).size()/(double)carsnum;
+                value = (double)buyCarRepository.findByCar_Level_Id(i).size()/(double)carsnum;
             JSONObject tmp = new JSONObject();
             tmp.put("id",i);
             tmp.put("value",value);
@@ -183,9 +188,12 @@ public class UserInterestsService {
         JsonUtil.writeJsonFile(initJsonString, fileName);
     }
 
-    public void Final(User user) throws JSONException, IOException {
+    public void Final(Long id) throws JSONException, IOException {
+        if(id == null) return;
 
-        if(user.getId() == null || (userCarCollectionRepository.findFirstByUserOrderByIdDesc(user)==null && buyCarRepository.findFirstByBuyerOrderByIdDesc(user)==null))
+        User user = userRepository.getOne(id);
+
+        if(userCarCollectionRepository.findFirstByUserOrderByIdDesc(user)==null && buyCarRepository.findFirstByBuyerOrderByIdDesc(user)==null)
             return;
 
         //获取最新收藏车辆的时间
@@ -246,7 +254,7 @@ public class UserInterestsService {
                 JSONObject newJson = jsonLevel.getJSONObject(i);
                 Integer a = newJson.getInt("id");
                 Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level_Id(user,a).size() * Wc
-                        + buyCarRepository.findByBuyerAndCar_Level(user,a).size() * Wb)/base);
+                        + buyCarRepository.findByBuyerAndCar_Level_Id(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonLevel.put(newJson);
             }
