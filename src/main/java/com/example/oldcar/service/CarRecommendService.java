@@ -48,8 +48,9 @@ public class CarRecommendService {
         File file = new File(fileName);
         if(file.exists()){
             return;
+        } else{
+            file.createNewFile();
         }
-        file.createNewFile();
 
         Double[][] hotMatrix = new Double[hotnum][hotnum];
         for(int i=1; i<=hotnum; i++){
@@ -69,8 +70,9 @@ public class CarRecommendService {
         File file = new File(fileName);
         if(file.exists()){
             return;
+        } else{
+            file.createNewFile();
         }
-        file.createNewFile();
 
         Double[][] levelMatrix = new Double[levelnum][levelnum];
         for(int i=1; i<=levelnum; i++){
@@ -90,8 +92,9 @@ public class CarRecommendService {
         File file = new File(fileName);
         if(file.exists()){
             return;
+        } else{
+            file.createNewFile();
         }
-        file.createNewFile();
 
         Double[][] pricerangeMatrix = new Double[pricerangenum][pricerangenum];
         for(int i=0; i<pricerangenum; i++){
@@ -111,8 +114,9 @@ public class CarRecommendService {
         File file = new File(fileName);
         if(file.exists()){
             return;
+        } else{
+            file.createNewFile();
         }
-        file.createNewFile();
 
         Double[][] uselengthrangeMatrix = new Double[uselengthrangenum][uselengthrangenum];
         for(int i=0; i<uselengthrangenum; i++){
@@ -126,6 +130,8 @@ public class CarRecommendService {
     }
 
     public List<CarHeader> CarRecommend(Long id) throws JSONException {
+        if(id == null) return null;
+
         CarHeader car = carHeaderRepository.getOne(id);
         CarBrand carBrand = car.getBrand();
         Long carBrandId = carBrand.getId();

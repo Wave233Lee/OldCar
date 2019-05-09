@@ -114,8 +114,9 @@ public class UserInterestsService {
 
             if(oldJson.get("timeLog") != null && oldJson.get("timeLog").equals(timeLog))
                 return;
-        }
+        } else{
             file.createNewFile();
+        }
 
 
         int carsnum = buyCarRepository.findAll().size();
@@ -215,8 +216,9 @@ public class UserInterestsService {
             if(oldJson.get("collection_timeLog") != null && oldJson.get("collection_timeLog").equals(collection_timeLog)
                     && oldJson.get("buy_timeLog") != null && oldJson.get("buy_timeLog").equals(buy_timeLog))
                 return;
-        }
+        } else{
             file.createNewFile();
+        }
 
         fileName = path+"init.json";
         //读取json文件
@@ -226,13 +228,13 @@ public class UserInterestsService {
         JSONArray jsonPriceRange = oldJson.getJSONArray("priceRange");
         JSONArray jsonUseLengthRange = oldJson.getJSONArray("useLengthRange");
 
-        Integer collectionNum = userCarCollectionRepository.findByUser(user).size();
-        Integer buyNum = buyCarRepository.findByBuyer(user).size();
+        int collectionNum = userCarCollectionRepository.findByUser(user).size();
+        int buyNum = buyCarRepository.findByBuyer(user).size();
         double Wo = 0.3;
         double Wn = 0.7;
-        Integer Wc = 3;
-        Integer Wb = 5;
-        int base = Wc * collectionNum + Wb * buyNum;
+        double Wc = 3.0;
+        double Wb = 5.0;
+        double base = Wc * collectionNum + Wb * buyNum;
 
         //更新品牌评分
         JSONArray newjsonBrand = new JSONArray();
@@ -240,7 +242,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonBrand.length(); i++){
                 JSONObject newJson = jsonBrand.getJSONObject(i);
                 CarBrand a = carBrandRepository.getOne(newJson.getLong("id"));
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Brand(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_Brand(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_Brand(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonBrand.put(newJson);
@@ -253,7 +255,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonLevel.length(); i++){
                 JSONObject newJson = jsonLevel.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level_Id(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_Level_Id(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_Level_Id(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonLevel.put(newJson);
@@ -266,7 +268,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonPriceRange.length(); i++){
                 JSONObject newJson = jsonPriceRange.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_PriceRange(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_PriceRange(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_PriceRange(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonPriceRange.put(newJson);
@@ -279,7 +281,7 @@ public class UserInterestsService {
             for(int i=0; i<jsonUseLengthRange.length(); i++){
                 JSONObject newJson = jsonUseLengthRange.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_UseLengthRange(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_UseLengthRange(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_UseLengthRange(user,a).size() * Wb)/base);
                 newJson.put("value",newvalue);
                 newjsonUseLengthRange.put(newJson);
@@ -328,6 +330,7 @@ public class UserInterestsService {
             JSONObject jsonObj = jsonBrand.getJSONObject(i);
             brandList.add(jsonObj);
         }
+
         brandList.sort(new MyComparatorUtil());
 
         //筛选出需要推荐的车品牌和个数
