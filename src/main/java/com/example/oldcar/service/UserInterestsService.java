@@ -32,7 +32,7 @@ public class UserInterestsService {
     @Autowired
     private  UserRepository userRepository;
 
-    private String path = "E:/json/";
+    private String path = "C:/json/";
 
     private String init_timelog = "1970-01-01 00:00:00";
 

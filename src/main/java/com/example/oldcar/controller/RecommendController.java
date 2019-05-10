@@ -2,7 +2,6 @@ package com.example.oldcar.controller;
 
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.Result;
-import com.example.oldcar.domain.User;
 import com.example.oldcar.service.CarRecommendService;
 import com.example.oldcar.service.UserInterestsService;
 import com.example.oldcar.utils.ResultUtil;
@@ -11,7 +10,6 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 

@@ -26,7 +26,7 @@ public class CarRecommendService {
     @Autowired
     private UserCarHistoryRepository userCarHistoryRepository;
 
-    private String path = "E:/matrix/";
+    private String path = "C:/matrix/";
 
     //品牌热门值个数
     private Integer hotnum = 5;
