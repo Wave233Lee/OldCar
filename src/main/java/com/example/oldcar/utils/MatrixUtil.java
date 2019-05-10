@@ -14,7 +14,7 @@ public class MatrixUtil {
             String tempString = null;
             int row =0;
             // 一次读入一行，直到读入null为文件结束
-            while ((tempString = reader.readLine()) != null) {
+            while (!(tempString = reader.readLine()).isEmpty()) {
                 String[] temp = tempString.split("\t");
                 for(int i=0; i<temp.length; i++){
                     array[row][i] = Double.parseDouble(temp[i]);

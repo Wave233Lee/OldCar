@@ -7,6 +7,8 @@ import com.example.oldcar.utils.MyComparatorUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.*;
@@ -22,23 +24,88 @@ public class UserInterestsService {
     private CarBrandRepository carBrandRepository;
 
     @Autowired
-    private CarLevelRepository carLevelRepository;
-
-    @Autowired
     private BuyCarRepository buyCarRepository;
 
     @Autowired
     private  UserCarCollectionRepository userCarCollectionRepository;
 
-    public String path = "E:/json/";
+    @Autowired
+    private  UserRepository userRepository;
 
-    private void Init() throws IOException, JSONException {
+    private String path = "E:/json/";
+
+    private String init_timelog = "1970-01-01 00:00:00";
+
+    private final static Logger logger = LoggerFactory.getLogger(UserInterestsService.class);
+
+    public void InitTable() {
+        List<CarHeader> allInit = carHeaderRepository.findAll();
+
+        for (CarHeader informationContent: allInit
+        ) {
+            Double carprice = informationContent.getBuyPrice();
+            Integer carage = informationContent.getUseLength();
+
+            //价格区间转换
+            if(carprice<=3.0){
+                informationContent.setPriceRange(0);
+            }
+            else if(carprice>3.0 && carprice<=5.0){
+                informationContent.setPriceRange(1);
+            }
+            else if(carprice>5.0 && carprice<=8.0){
+                informationContent.setPriceRange(2);
+            }
+            else if(carprice>8.0 && carprice<=10.0){
+                informationContent.setPriceRange(3);
+            }
+            else if(carprice>10.0 && carprice<=15.0){
+                informationContent.setPriceRange(4);
+            }
+            else if(carprice>15.0 && carprice<=20.0){
+                informationContent.setPriceRange(5);
+            }
+            else if(carprice>20.0 && carprice<=30.0){
+                informationContent.setPriceRange(6);
+            }
+            else if(carprice>30.0 && carprice<=50.0){
+                informationContent.setPriceRange(7);
+            }
+            else if(carprice>50.0 && carprice<=100.0){
+                informationContent.setPriceRange(8);
+            }
+            else
+                informationContent.setPriceRange(9);
+
+            //车龄区间转换
+            if(carage<=2){
+                informationContent.setUseLengthRange(0);
+            }
+            else if(carage <= 4){
+                informationContent.setUseLengthRange(1);
+            }
+            else if(carage <= 6){
+                informationContent.setUseLengthRange(2);
+            }
+            else if(carage <= 8){
+                informationContent.setUseLengthRange(3);
+            }
+            else
+                informationContent.setUseLengthRange(4);
+            carHeaderRepository.save(informationContent);
+        }
+    }
+
+    public void Init() throws IOException, JSONException {
+
         //获取最新购买车辆的时间
-        String timeLog = buyCarRepository.findFirstByOrderByIdDesc().getDate().toString();
+        String timeLog = init_timelog;
+        if(buyCarRepository.findFirstByOrderByIdDesc()!=null)
+            timeLog = buyCarRepository.findFirstByOrderByIdDesc().getDate().toString();
 
         //创建文件
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"init.json";
+        String fileName;
+        fileName = path+"init.json";
         System.out.println(fileName);
         File file = new File(fileName);
         if(file.exists()){
@@ -47,11 +114,12 @@ public class UserInterestsService {
 
             if(oldJson.get("timeLog") != null && oldJson.get("timeLog").equals(timeLog))
                 return;
-        }
+        } else{
             file.createNewFile();
+        }
 
 
-        Integer carsnum = buyCarRepository.findAll().size();
+        int carsnum = buyCarRepository.findAll().size();
 
         List<CarBrand> carBrand = carBrandRepository.findAll();
 
@@ -63,7 +131,7 @@ public class UserInterestsService {
             double value = 0.0;
             if(carsnum != 0)
                 value = (double)buyCarRepository.findByCar_Brand(b).size()/(double)carsnum;
-            JSONObject tmp = null;
+            JSONObject tmp = new JSONObject();
             tmp.put("id",index);
             tmp.put("value",value);
             jsonBrand.put(tmp);
@@ -75,8 +143,8 @@ public class UserInterestsService {
         for(int i=0; i<levelType; i++){
             double value = 0.0;
             if(carsnum != 0)
-                value = (double)buyCarRepository.findByCar_Level(i).size()/(double)carsnum;
-            JSONObject tmp = null;
+                value = (double)buyCarRepository.findByCar_Level_Id(i).size()/(double)carsnum;
+            JSONObject tmp = new JSONObject();
             tmp.put("id",i);
             tmp.put("value",value);
             jsonLevel.put(tmp);
@@ -89,7 +157,7 @@ public class UserInterestsService {
             double value = 0.0;
             if(carsnum != 0)
                 value = (double)buyCarRepository.findByCar_PriceRange(i).size()/(double)carsnum;
-            JSONObject tmp = null;
+            JSONObject tmp = new JSONObject();
             tmp.put("id",i);
             tmp.put("value",value);
             jsonPriceRange.put(tmp);
@@ -103,14 +171,14 @@ public class UserInterestsService {
             double value = 0.0;
             if(carsnum != 0)
                 value = (double)buyCarRepository.findByCar_UseLengthRange(i).size()/(double)carsnum;
-            JSONObject tmp = null;
+            JSONObject tmp = new JSONObject();
             tmp.put("id",i);
             tmp.put("value",value);
             jsonUseLengthRange.put(tmp);
         }
 
         //将初始化json数组写入文件
-        JSONObject jsonInit = null;
+        JSONObject jsonInit = new JSONObject();
         jsonInit.put("timeLog",timeLog);
         jsonInit.put("carBrand",jsonBrand);
         jsonInit.put("carLevel",jsonLevel);
@@ -121,17 +189,25 @@ public class UserInterestsService {
         JsonUtil.writeJsonFile(initJsonString, fileName);
     }
 
-    private void Final(User user) throws JSONException, IOException {
+    public void Final(Long id) throws JSONException, IOException {
+        if(id == null) return;
 
-        if(user == null) return;
+        User user = userRepository.getOne(id);
+
+        if(userCarCollectionRepository.findFirstByUserOrderByIdDesc(user)==null && buyCarRepository.findFirstByBuyerOrderByIdDesc(user)==null)
+            return;
 
         //获取最新收藏车辆的时间
-        String collection_timeLog = userCarCollectionRepository.findFirstByUserOrderByIdDesc(user).getDate().toString();
-        //获取最新购买车辆的时间
-        String buy_timeLog = buyCarRepository.findFirstByBuyerOrderByIdDesc(user).getDate().toString();
+        String collection_timeLog = init_timelog;
+        if(userCarCollectionRepository.findFirstByUserOrderByIdDesc(user)!=null)
+            collection_timeLog = userCarCollectionRepository.findFirstByUserOrderByIdDesc(user).getDate().toString();
 
-        String fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"final.json";
+        //获取最新购买车辆的时间
+        String buy_timeLog = init_timelog;
+        if(buyCarRepository.findFirstByBuyerOrderByIdDesc(user)!=null)
+            buy_timeLog = buyCarRepository.findFirstByBuyerOrderByIdDesc(user).getDate().toString();
+
+        String fileName = path+"final.json";
         System.out.println(fileName);
         File file = new File(fileName);
         if(file.exists()){
@@ -140,12 +216,11 @@ public class UserInterestsService {
             if(oldJson.get("collection_timeLog") != null && oldJson.get("collection_timeLog").equals(collection_timeLog)
                     && oldJson.get("buy_timeLog") != null && oldJson.get("buy_timeLog").equals(buy_timeLog))
                 return;
-        }
+        } else{
             file.createNewFile();
+        }
 
-
-        fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"init.json";
+        fileName = path+"init.json";
         //读取json文件
         JSONObject oldJson = new JSONObject(JsonUtil.readJsonFile(fileName));
         JSONArray jsonBrand = oldJson.getJSONArray("carBrand");
@@ -153,99 +228,109 @@ public class UserInterestsService {
         JSONArray jsonPriceRange = oldJson.getJSONArray("priceRange");
         JSONArray jsonUseLengthRange = oldJson.getJSONArray("useLengthRange");
 
-        Integer collectionNum = userCarCollectionRepository.findByUser(user).size();
-        Integer buyNum = buyCarRepository.findByBuyer(user).size();
+        int collectionNum = userCarCollectionRepository.findByUser(user).size();
+        int buyNum = buyCarRepository.findByBuyer(user).size();
         double Wo = 0.3;
         double Wn = 0.7;
-        Integer Wc = 3;
-        Integer Wb = 5;
-        int base = Wc * collectionNum + Wb * buyNum;
+        double Wc = 3.0;
+        double Wb = 5.0;
+        double base = Wc * collectionNum + Wb * buyNum;
 
         //更新品牌评分
+        JSONArray newjsonBrand = new JSONArray();
         if(jsonBrand.length()>0){
             for(int i=0; i<jsonBrand.length(); i++){
                 JSONObject newJson = jsonBrand.getJSONObject(i);
                 CarBrand a = carBrandRepository.getOne(newJson.getLong("id"));
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Brand(user,a).size() * Wc
-                + buyCarRepository.findByBuyerAndCar_Brand(user,a).size() * Wb)/base);
-                newJson.put(newJson.getString("id"),newvalue);
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_Brand(user,a).size() * Wc
+                        + buyCarRepository.findByBuyerAndCar_Brand(user,a).size() * Wb)/base);
+                newJson.put("value",newvalue);
+                newjsonBrand.put(newJson);
             }
         }
 
         //更新车级评分
+        JSONArray newjsonLevel = new JSONArray();
         if(jsonLevel.length()>0){
             for(int i=0; i<jsonLevel.length(); i++){
                 JSONObject newJson = jsonLevel.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_Level(user,carLevelRepository.getOne(a)).size() * Wc
-                        + buyCarRepository.findByBuyerAndCar_Level(user,a).size() * Wb)/base);
-                newJson.put(newJson.getString("id"),newvalue);
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_Level_Id(user,a).size() * Wc
+                        + buyCarRepository.findByBuyerAndCar_Level_Id(user,a).size() * Wb)/base);
+                newJson.put("value",newvalue);
+                newjsonLevel.put(newJson);
             }
         }
 
         //更新价格区间评分
+        JSONArray newjsonPriceRange = new JSONArray();
         if(jsonPriceRange.length()>0){
             for(int i=0; i<jsonPriceRange.length(); i++){
                 JSONObject newJson = jsonPriceRange.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_PriceRange(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_PriceRange(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_PriceRange(user,a).size() * Wb)/base);
-                newJson.put(newJson.getString("id"),newvalue);
+                newJson.put("value",newvalue);
+                newjsonPriceRange.put(newJson);
             }
         }
 
         //更新车龄区间评分
+        JSONArray newjsonUseLengthRange = new JSONArray();
         if(jsonUseLengthRange.length()>0){
             for(int i=0; i<jsonUseLengthRange.length(); i++){
                 JSONObject newJson = jsonUseLengthRange.getJSONObject(i);
                 Integer a = newJson.getInt("id");
-                Double newvalue = Wo * newJson.getDouble("value") + Wn * (double)((userCarCollectionRepository.findByUserAndCar_UseLengthRange(user,a).size() * Wc
+                Double newvalue = Wo * newJson.getDouble("value") + Wn * ((userCarCollectionRepository.findByUserAndCar_UseLengthRange(user,a).size() * Wc
                         + buyCarRepository.findByBuyerAndCar_UseLengthRange(user,a).size() * Wb)/base);
-                newJson.put(newJson.getString("id"),newvalue);
+                newJson.put("value",newvalue);
+                newjsonUseLengthRange.put(newJson);
             }
         }
 
-        JSONObject jsonFinal = null;
+        JSONObject jsonFinal = new JSONObject();
         jsonFinal.put("collection_timeLog",collection_timeLog);
         jsonFinal.put("buy_timeLog",buy_timeLog);
-        jsonFinal.put("carBrand",jsonBrand);
-        jsonFinal.put("carLevel",jsonLevel);
-        jsonFinal.put("priceRange",jsonPriceRange);
-        jsonFinal.put("useLengthRange",jsonUseLengthRange);
+        jsonFinal.put("carBrand",newjsonBrand);
+        jsonFinal.put("carLevel",newjsonLevel);
+        jsonFinal.put("priceRange",newjsonPriceRange);
+        jsonFinal.put("useLengthRange",newjsonUseLengthRange);
 
-        fileName = path+ File.pathSeparator+"File"+
-                File.pathSeparator+"final.json";
+        fileName = path+"final.json";
         String finalJsonString = jsonFinal.toString();
         JsonUtil.writeJsonFile(finalJsonString, fileName);
     }
 
-    public List<CarHeader> UserRecommend(User user) throws JSONException {
+    public List<CarHeader> UserRecommend() throws JSONException {
+
         int recommendCarNum = 10;
-        List<CarHeader> UserRecommendCar = null;
-        String fileName;
-        if(user == null){
-            fileName = path+ File.pathSeparator+"File"+
-                    File.pathSeparator+"init.json";
-            System.out.println(fileName);
-        }
-        else{
-            fileName = path+ File.pathSeparator+"File"+
-                    File.pathSeparator+"final.json";
-            System.out.println(fileName);
+        List<CarHeader> UserRecommendCar = new ArrayList<>();
+        String fileName = path+"final.json";
+        File file = new File(fileName);
+
+        if(!file.exists()){
+            fileName = path+"init.json";
+            JSONObject useJson = new JSONObject(JsonUtil.readJsonFile(fileName));
+            if(useJson.getString("timeLog").equals(init_timelog)){
+                UserRecommendCar = carHeaderRepository.findFirst10ByOrderByUseLengthRange();
+                return UserRecommendCar;
+            }
         }
 
         JSONObject useJson = new JSONObject(JsonUtil.readJsonFile(fileName));
+
         JSONArray jsonBrand = useJson.getJSONArray("carBrand");
         JSONArray jsonLevel = useJson.getJSONArray("carLevel");
         JSONArray jsonPriceRange = useJson.getJSONArray("priceRange");
         JSONArray jsonUseLengthRange = useJson.getJSONArray("useLengthRange");
 
         //将车品牌降序排序
-        List<JSONObject> brandList = new ArrayList<JSONObject>();
+        List<JSONObject> brandList = new ArrayList<>();
         for(int i=0; i<jsonBrand.length(); i++) {
             JSONObject jsonObj = jsonBrand.getJSONObject(i);
             brandList.add(jsonObj);
         }
+
         brandList.sort(new MyComparatorUtil());
 
         //筛选出需要推荐的车品牌和个数
@@ -255,6 +340,7 @@ public class UserInterestsService {
              ) {
             //向上取整
             int num = (int)Math.ceil((a.getDouble("value") * (double)recommendCarNum));
+            if(num==0) continue;
             flag+=num;
             if(flag<recommendCarNum){
                 a.put("id",a.getLong("id"));
@@ -271,7 +357,7 @@ public class UserInterestsService {
         }
 
         //取车级评分最大值
-        List<JSONObject> levelList = new ArrayList<JSONObject>();
+        List<JSONObject> levelList = new ArrayList<>();
         for(int i=0; i<jsonLevel.length(); i++) {
             JSONObject jsonObj = jsonLevel.getJSONObject(i);
             levelList.add(jsonObj);
@@ -280,7 +366,7 @@ public class UserInterestsService {
         Integer maxLevel = levelList.get(0).getInt("id");
 
         //取价格区间评分最大值
-        List<JSONObject> pricerangeList = new ArrayList<JSONObject>();
+        List<JSONObject> pricerangeList = new ArrayList<>();
         for(int i=0; i<jsonPriceRange.length(); i++) {
             JSONObject jsonObj = jsonPriceRange.getJSONObject(i);
             pricerangeList.add(jsonObj);
@@ -289,7 +375,7 @@ public class UserInterestsService {
         Integer maxPriceRange = pricerangeList.get(0).getInt("id");
 
         //取车龄区间评分最大值
-        List<JSONObject> uselengthrangeList = new ArrayList<JSONObject>();
+        List<JSONObject> uselengthrangeList = new ArrayList<>();
         for(int i=0; i<jsonUseLengthRange.length(); i++) {
             JSONObject jsonObj = jsonUseLengthRange.getJSONObject(i);
             uselengthrangeList.add(jsonObj);
@@ -301,33 +387,55 @@ public class UserInterestsService {
             JSONObject obj = jsonRecommendBrand.getJSONObject(i);
             int num = obj.getInt("value");
             Long id = obj.getLong("id");
-            List<CarHeader> InitRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
-            if (InitRecommend.size()<num){
-                UserRecommendCar.addAll(InitRecommend);
+            List<CarHeader> InitRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+            if (InitRecommend.size() < num){
+                if(!InitRecommend.isEmpty()) UserRecommendCar.addAll(InitRecommend);
 
                 int rest = num - InitRecommend.size();
-                List<CarHeader> RestRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelNotAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
-                if (RestRecommend.size()<rest){
-                    UserRecommendCar.addAll(RestRecommend);
+                List<CarHeader> RestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                if (RestRecommend.size() < rest) {
+                    if(!RestRecommend.isEmpty()) UserRecommendCar.addAll(RestRecommend);
 
                     int rrest = rest - RestRecommend.size();
-                    List<CarHeader> RrestRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
-                    if (RrestRecommend.size() < rrest){
-                        UserRecommendCar.addAll(RrestRecommend);
+                    List<CarHeader> RrestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRange(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                    if (RrestRecommend.size() < rrest) {
+                        if(!RrestRecommend.isEmpty()) UserRecommendCar.addAll(RrestRecommend);
 
                         int rrrest = rrest - RrestRecommend.size();
-                        List<CarHeader> RrrestRecommend = carHeaderRepository.findFirst10ByBrand_IdAndLevelNotAndPriceRangeNotAndUseLengthRangeNot(id, maxLevel, maxPriceRange, maxUseLengthRange);
-                        for(int j=0; j<rrrest; j++){
-                            UserRecommendCar.add(RrrestRecommend.get(j));
+                        List<CarHeader> RrrestRecommend = carHeaderRepository.findByBrand_IdAndLevel_IdNotAndPriceRangeNotAndUseLengthRangeNot(id, maxLevel, maxPriceRange, maxUseLengthRange);
+                        if (RrrestRecommend.size() < rrrest) {
+                            if(!RrrestRecommend.isEmpty()) UserRecommendCar.addAll(RrrestRecommend);
+
+                            int rrrrest = rrrest - RrrestRecommend.size();
+                            List<CarHeader> Last = carHeaderRepository.findFirst10ByOrderByUseLengthRange();
+                            for(int j=0; j<rrrrest; j++){
+                                UserRecommendCar.add(Last.get(j));
+                            }
+                        } else{
+                            for(int j=0; j<rrrest; j++){
+                                UserRecommendCar.add(RrrestRecommend.get(j));
+                            }
+                        }
+                    } else{
+                        for(int j=0; j<rrest; j++){
+                            UserRecommendCar.add(RrestRecommend.get(j));
                         }
                     }
+                } else{
+                    for(int j=0; j<rest; j++){
+                        UserRecommendCar.add(RestRecommend.get(j));
+                    }
                 }
-            }
-            else{
+            } else{
                 for(int j=0; j<num; j++){
                     UserRecommendCar.add(InitRecommend.get(j));
                 }
             }
+        }
+        for (CarHeader a:UserRecommendCar
+             ) {
+            logger.info(String.valueOf(a.getId()));
+            logger.info("==================================");
         }
         return UserRecommendCar;
     }

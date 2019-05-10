@@ -31,54 +31,6 @@ public class CarHeaderService {
      * 新增
      */
     public CarHeader add(CarHeader informationContent){
-        Double carprice = informationContent.getBuyPrice();
-        Integer carage = informationContent.getUseLength();
-        //价格区间转换
-        if(carprice<=3.0){
-            informationContent.setPriceRange(0);
-        }
-        else if(carprice>3.0 && carprice<=5.0){
-            informationContent.setPriceRange(1);
-        }
-        else if(carprice>5.0 && carprice<=8.0){
-            informationContent.setPriceRange(2);
-        }
-        else if(carprice>8.0 && carprice<=10.0){
-            informationContent.setPriceRange(3);
-        }
-        else if(carprice>10.0 && carprice<=15.0){
-            informationContent.setPriceRange(4);
-        }
-        else if(carprice>15.0 && carprice<=20.0){
-            informationContent.setPriceRange(5);
-        }
-        else if(carprice>20.0 && carprice<=30.0){
-            informationContent.setPriceRange(6);
-        }
-        else if(carprice>30.0 && carprice<=50.0){
-            informationContent.setPriceRange(7);
-        }
-        else if(carprice>50.0 && carprice<=100.0){
-            informationContent.setPriceRange(8);
-        }
-        else
-            informationContent.setPriceRange(9);
-        //车龄区间转换
-        if(carage<=2){
-            informationContent.setUseLengthRange(0);
-        }
-        else if(carage <= 4){
-            informationContent.setUseLengthRange(1);
-        }
-        else if(carage <= 6){
-            informationContent.setUseLengthRange(2);
-        }
-        else if(carage <= 8){
-            informationContent.setUseLengthRange(3);
-        }
-        else
-            informationContent.setUseLengthRange(4);
-
         return carHeaderRepository.save(informationContent);
     }
 
