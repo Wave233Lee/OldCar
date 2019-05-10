@@ -427,7 +427,7 @@ public class SearchService {
         return videos;
     }
     public CarVO searchall(String keyWord){
-        CarVO carVO = new CarVO(fenci(keyWord),searchCar0(keyWord),searchCar1(keyWord),searchCar2(keyWord),searchCar3(keyWord),searchAccessories(keyWord),article(keyWord),video(keyWord));
+        CarVO carVO = new CarVO(fenci(keyWord),searchCar0(keyWord),searchCar1(keyWord),searchCar2(keyWord),searchCar3(keyWord),searchAccessories(keyWord));
         return carVO;
     }
     //打印矩阵
@@ -458,8 +458,10 @@ public class SearchService {
         int flagjump=0;
         //判断搜索内容是配件还是车型，先搜索配件数据库
         for(int i=0;i<terms.size();i++){
-            if(accessoriesHeaderRepository.findByNameLike(terms.get(i).getName())!=null){
+            List<AccessoriesHeader> accessories = accessoriesHeaderRepository.findByNameLike("%" + terms.get(i).getName() + "%");
+            if(accessories.size()!=0){
                 flagjump=1;
+                System.out.println(flagjump);
             }
         }
         return flagjump;

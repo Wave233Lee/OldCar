@@ -73,4 +73,11 @@ public class SearchController {
     public Result<CarVO> findall(@RequestParam String keyWord){
         return ResultUtil.success(searchService.searchall(keyWord));
     }
+    /**
+     * 根据关键词判断是否需要跳转到配件，1是跳转
+     */
+    @GetMapping(value = "/getJump")
+    public Result<Integer> ifjump(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.fenci(keyWord));
+    }
 }

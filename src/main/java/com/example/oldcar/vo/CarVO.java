@@ -20,21 +20,17 @@ public class CarVO {
 
     List<AccessoriesHeader> accessoriesHeaders;
 
-    List<ArticleHeader> articleHeaders;
+   // List<ArticleHeader> articleHeaders;
 
-    List<VideoHeader> videoHeaders;
+   // List<VideoHeader> videoHeaders;
 
-    public CarVO() {
+    public CarVO(Integer flag1, List<CarHeader> car01, List<CarHeader> car11, List<CarHeader> car21, List<CarHeader> car31, List<AccessoriesHeader> accessoriesHeaders1) {
+        flag = flag1;
+        car0 = car01;
+        car1 = car11;
+        car2 = car21;
+        car3 = car31;
+        accessoriesHeaders = accessoriesHeaders1;
     }
 
-    public CarVO(Integer flag, List<CarHeader> car0, List<CarHeader> car1, List<CarHeader> car2, List<CarHeader> car3, List<AccessoriesHeader> accessoriesHeaders, List<ArticleHeader> articleHeaders, List<VideoHeader> videoHeaders) {
-        this.flag = flag;
-        this.car0 = car0;
-        this.car1 = car1;
-        this.car2 = car2;
-        this.car3 = car3;
-        this.accessoriesHeaders = accessoriesHeaders;
-        this.articleHeaders = articleHeaders;
-        this.videoHeaders = videoHeaders;
-    }
 }
