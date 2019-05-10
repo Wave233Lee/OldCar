@@ -1,9 +1,11 @@
 package com.example.oldcar.controller;
 
+import com.example.oldcar.domain.AccessoriesHeader;
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.Result;
 import com.example.oldcar.service.SearchService;
 import com.example.oldcar.utils.ResultUtil;
+import com.example.oldcar.vo.CarVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,5 +59,25 @@ public class SearchController {
     public Result<List<CarHeader>> findNewCar(@RequestParam String keyWord){
         return ResultUtil.success(searchService.searchCar3(keyWord));
     }
-
+    /**
+     * 根据关键词查询配件
+     */
+    @GetMapping(value = "/getAccessories")
+    public Result<List<AccessoriesHeader>> findAccessories(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.searchAccessories(keyWord));
+    }
+    /**
+     * 根据关键词查询所有
+     */
+    @GetMapping(value = "/getAll")
+    public Result<CarVO> findall(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.searchall(keyWord));
+    }
+    /**
+     * 根据关键词判断是否需要跳转到配件，1是跳转
+     */
+    @GetMapping(value = "/getJump")
+    public Result<Integer> ifjump(@RequestParam String keyWord){
+        return ResultUtil.success(searchService.fenci(keyWord));
+    }
 }

@@ -1,9 +1,13 @@
 package com.example.oldcar.service;
 
+import com.example.oldcar.domain.AccessoriesHeader;
 import com.example.oldcar.domain.ArticleHeader;
 import com.example.oldcar.domain.CarHeader;
 import com.example.oldcar.domain.VideoHeader;
+import com.example.oldcar.exception.CarException;
+import com.example.oldcar.exception.EnumExceptions;
 import com.example.oldcar.repository.*;
+import com.example.oldcar.vo.CarVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +98,12 @@ public class SearchService {
             }
         }
         List<CarHeader> cars0 = carHeaderRepository.findByTypeAndNameLike(0,"%" + terms.get(tempi).getName() + "%");
-
+        System.out.println("cars0:");
+        System.out.println(cars0);
+        if(cars0.size()==0){
+            return cars0;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+        }
         /*car0操作
         老爷车特征向量q0,赋予初始随机值
         */
@@ -174,6 +183,13 @@ public class SearchService {
             }
         }
         List<CarHeader> cars1 = carHeaderRepository.findByTypeAndNameLike(1,"%" + terms.get(tempi).getName() + "%");
+        System.out.println("cars1");
+        System.out.println(cars1);
+        if(cars1.size()==0){
+            System.out.println("None");
+            return cars1;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+        }
         /*car1操作
         进口车特征向量q1,赋予初始随机值
         */
@@ -183,7 +199,10 @@ public class SearchService {
             Double temp=Math.random();
             q1.add(temp);
         }
-
+        System.out.println("q1.size:");
+        System.out.println(q1.size());
+        System.out.println("q1:");
+        System.out.println(q1);
 //        printMatrix(getG(ALPHA,carsize1));
         List<Double> pageRank1 = calPageRank(q1, ALPHA,carsize1);
         //排序
@@ -244,6 +263,10 @@ public class SearchService {
             }
         }
         List<CarHeader> cars2 = carHeaderRepository.findByTypeAndNameLike(2,"%" + terms.get(tempi).getName() + "%");
+        if(cars2.size()==0){
+            return cars2;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+        }
         /*car2操作
         二手车特征向量q2,赋予初始随机值
         */
@@ -313,6 +336,10 @@ public class SearchService {
             }
         }
         List<CarHeader> cars3 = carHeaderRepository.findByTypeAndNameLike(3,"%" + terms.get(tempi).getName() + "%");
+        if(cars3.size()==0){
+            return cars3;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+        }
         /*car3操作
         新能源车特征向量q3,赋予初始随机值
         */
@@ -339,6 +366,55 @@ public class SearchService {
         }
         return cars3;
     }
+    public List<AccessoriesHeader> searchAccessories(String keyWord){
+        //对keyWord进行分词，ansj
+        //只关注这些词性的词
+        Set<String> expectedNature = new HashSet<String>() {{
+            add("n");add("v");add("vd");add("vn");add("vf");
+            add("vx");add("vi");add("vl");add("vg");
+            add("nt");add("nz");add("nw");add("nl");
+            add("ng");add("userDefine");add("wh");
+        }};
+        // String str = "欢迎使用ansj_seg,(ansj中文分词)在这里如果你遇到什么问题都可以联系我.我一定尽我所能.帮助大家.ansj_seg更快,更准,更自由!" ;
+        Result result = ToAnalysis.parse(keyWord); //分词结果的一个封装，主要是一个List<Term>的terms
+        System.out.println(result.getTerms());
+
+        List<Term> terms = result.getTerms(); //拿到terms
+        System.out.println(terms.size());
+/*
+        for(int i=0; i<terms.size(); i++) {
+            String word = terms.get(i).getName(); //拿到词
+            String natureStr = terms.get(i).getNatureStr(); //拿到词性
+            if(expectedNature.contains(natureStr)) {
+                System.out.println(word + ":" + natureStr);
+            }
+        }
+*/
+        int flagjump=0;
+        //判断搜索内容是配件还是车型，先搜索配件数据库
+        for(int i=0;i<terms.size();i++){
+            if(accessoriesHeaderRepository.findByNameLike(terms.get(i).getName())!=null){
+                flagjump=1;
+            }
+        }
+        //采取类似pagerank排序
+        //q=Gq
+        //G=aS+(1-a)*1/n*U,S网页指向原始矩阵，n网页数量，U全为1的n阶矩阵
+        //从数据库提取汽车数据
+        //0是老爷车，1是进口车，2是二手车，3是新能源
+        int tempi=0;
+        for(int i=0;i<terms.size();i++){
+            if(accessoriesHeaderRepository.findByNameLike(terms.get(i).getName())!=null){
+                tempi=i;
+            }
+        }
+        List<AccessoriesHeader> accessories = accessoriesHeaderRepository.findByNameLike("%" + terms.get(tempi).getName() + "%");
+        if(accessories.size()==0){
+            return accessories;
+            //throw new CarException(EnumExceptions.SEARCH_FAILED_NORESULT);
+        }
+        return accessories;
+    }
     public List<ArticleHeader> article(String keyWord) {
         //从数据库提取文章数据
         List<ArticleHeader> articles = articleHeaderRepository.findByAuthor_UserNameLike("%" + keyWord + "%");
@@ -350,6 +426,10 @@ public class SearchService {
         videos.addAll(videoHeaderRepository.findByTitleLike("%" + keyWord + "%"));
         return videos;
     }
+    public CarVO searchall(String keyWord){
+        CarVO carVO = new CarVO(fenci(keyWord),searchCar0(keyWord),searchCar1(keyWord),searchCar2(keyWord),searchCar3(keyWord),searchAccessories(keyWord));
+        return carVO;
+    }
     //打印矩阵
     public static void printMatrix(List<List<Double>> m){
         for(int i=0;i<m.size();i++){
@@ -359,13 +439,45 @@ public class SearchService {
             System.out.println();
         }
     }
+    //1是配件，0是车
+    public int fenci(String keyWord){
+        //对keyWord进行分词，ansj
+        //只关注这些词性的词
+        Set<String> expectedNature = new HashSet<String>() {{
+            add("n");add("v");add("vd");add("vn");add("vf");
+            add("vx");add("vi");add("vl");add("vg");
+            add("nt");add("nz");add("nw");add("nl");
+            add("ng");add("userDefine");add("wh");
+        }};
+        // String str = "欢迎使用ansj_seg,(ansj中文分词)在这里如果你遇到什么问题都可以联系我.我一定尽我所能.帮助大家.ansj_seg更快,更准,更自由!" ;
+        Result result = ToAnalysis.parse(keyWord); //分词结果的一个封装，主要是一个List<Term>的terms
+        System.out.println(result.getTerms());
 
+        List<Term> terms = result.getTerms(); //拿到terms
+        System.out.println(terms.size());
+        int flagjump=0;
+        //判断搜索内容是配件还是车型，先搜索配件数据库
+        for(int i=0;i<terms.size();i++){
+            List<AccessoriesHeader> accessories = accessoriesHeaderRepository.findByNameLike("%" + terms.get(i).getName() + "%");
+            if(accessories.size()!=0){
+                flagjump=1;
+                System.out.println(flagjump);
+            }
+        }
+        return flagjump;
+    }
     //q=Gq
     //G=aS+(1-a)*1/n*U,S网页指向原始矩阵，n网页数量，U全为1的n阶矩阵
     public static List<List<Double>> getG(double a,int n){
         List<List<Double>> aS=numberMulMatrix(getS(n), a);
+        System.out.println("aS:");
+        System.out.println(aS);
         List<List<Double>> nU=numberMulMatrix(getU(n), (1 - a) / n);
+        System.out.println("nU:");
+        System.out.println(nU);
         List<List<Double>> g = addMatrix(aS, nU);
+        System.out.println("g:");
+        System.out.println(g);
         return g;
     }
 
@@ -419,9 +531,13 @@ public class SearchService {
             }
             Object[] ints = set.toArray();*/
             int temp1=(int)((n-0+1)*Math.random()+0);
+            System.out.println("temp1:");
+            System.out.println(temp1);
             int temp2=0;
             while(true){
                 temp2=(int)((n-0+1)*Math.random()+0);
+                System.out.println("temp2:");
+                System.out.println(temp2);
                 if(temp2!=temp1){
                     break;
                 }
@@ -437,14 +553,18 @@ public class SearchService {
                     s.get(i).add(new Double(0));
                 }
             }
+            System.out.println("s:");
+            System.out.println(s);
         }
         //矩阵转置
         for(int i=0;i<n;i++){
             w.add(new ArrayList<Double>());
             for(int j=0;j<n;j++){
-                s.get(i).add(s.get(j).get(i));
+                w.get(i).add(s.get(j).get(i));
             }
         }
+        System.out.println("w:");
+        System.out.println(w);
         return w;
     }
     //计算两个向量的距离
@@ -465,16 +585,22 @@ public class SearchService {
         List<Double> q;
         while(true){
             q=vectorMulMatrix(g,q1);
+            System.out.println("q.size:");
+            System.out.println(q.size());
+            System.out.println("q:");
+            System.out.println(q);
             double dis=calDistance(q,q1);
-//            System.out.println(dis);
+            System.out.println(dis);
             if(dis<=Distance){
-//                System.out.println("q1:");
+                System.out.println("q1:");
                 printVec(q1);
-//                System.out.println("q:");
+                System.out.println("q:");
                 printVec(q);
                 break;
             }
             q1=q;
+            System.out.println("q1:");
+            System.out.println(q1);
         }
         return q;
     }
@@ -501,4 +627,5 @@ public class SearchService {
         }
         return list;
     }
+
 }

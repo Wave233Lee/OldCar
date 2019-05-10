@@ -16,6 +16,7 @@ public enum EnumExceptions {
 	ARGB_MISMATCH_EXCEPTION(5, "参数类型不匹配错误, 请检查"),
 	DATA_NOT_EXIST(6,"查询失败，数据不存在"),
 	UPLOAD_FAILED_EMPUTY(7,"上传失败，图片不能为空"),
+	SEARCH_FAILED_NORESULT(8,"搜索无结果，请重新输入"),
 	;
 
 	/** 编码 */
