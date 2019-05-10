@@ -77,7 +77,7 @@ public class CarRecommendService {
         Double[][] levelMatrix = new Double[levelnum][levelnum];
         for(int i=1; i<=levelnum; i++){
             for(int j=1; j<=levelnum; j++){
-                levelMatrix[i][j] = (double)(levelnum-Math.abs(i-j))/(double)levelnum;
+                levelMatrix[i-1][j-1] = (double)(levelnum-Math.abs(i-j))/(double)levelnum;
             }
         }
 
