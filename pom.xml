@@ -74,6 +74,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/ansj_seg-5.1.6.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.nlpcn.commons.lang</groupId>
+            <artifactId>nlp-lang</artifactId>
+            <version>1.7.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/nlp-lang-1.7.7.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

@@ -57,8 +57,8 @@ public interface CarHeaderRepository extends JpaRepository<CarHeader,Long> {
     /**
      * 通过汽车级别查询
      */
-    Page<CarHeader> findByLevel(Integer level,Pageable pageable);
-    List<CarHeader> findByLevel(Integer level);
+    Page<CarHeader> findByLevel_Id(Integer level,Pageable pageable);
+    List<CarHeader> findByLevel_Id(Integer level);
 
     /**
      * 通过价格区间查询

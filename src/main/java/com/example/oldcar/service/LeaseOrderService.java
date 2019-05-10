@@ -49,6 +49,21 @@ public class LeaseOrderService {
     }
 
     /**
+     * 更新订单状态
+     */
+    public LeaseOrder updateState(Long id,Integer state) {
+
+        // 验证是否存在
+        LeaseOrder leaseOrder = leaseOrderRepository.getOne(id);
+        if (leaseOrder == null ) {
+            throw new CarException(EnumExceptions.UPDATE_FAILED_NOT_EXIST);
+        }
+
+        leaseOrder.setState(state);
+        return leaseOrderRepository.save(leaseOrder);
+    }
+
+    /**
      * 根据id查询
      */
     public LeaseOrder findById(Long id){

@@ -29,10 +29,16 @@ public class LeaseOrder {
     private User leaser;
 
     /**
-     * 使用地点
+     * 取车地点
      */
     @ApiModelProperty("使用地点：省市区 室内外")
-    private String place;
+    private String place1;
+
+    /**
+     * 还车地点
+     */
+    @ApiModelProperty("使用地点：省市区 室内外")
+    private String place2;
 
     /**
      * 使用类型 0静展 1巡游
@@ -71,9 +77,9 @@ public class LeaseOrder {
     private CarHeader car;
 
     /**
-     * 支付标志 0未支付/1已支付
+     * 订单标志 0未支付/1已支付/2已取车
      */
-    private Integer pay;
+    private Integer state;
 
     /**
      * 开票类型 0单位/1个人
@@ -106,13 +112,6 @@ public class LeaseOrder {
         this.leaser = leaser;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
 
     public Integer getType() {
         return type;
@@ -154,12 +153,28 @@ public class LeaseOrder {
         this.car = car;
     }
 
-    public Integer getPay() {
-        return pay;
+    public String getPlace1() {
+        return place1;
     }
 
-    public void setPay(Integer pay) {
-        this.pay = pay;
+    public void setPlace1(String place1) {
+        this.place1 = place1;
+    }
+
+    public String getPlace2() {
+        return place2;
+    }
+
+    public void setPlace2(String place2) {
+        this.place2 = place2;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public Integer getKind() {

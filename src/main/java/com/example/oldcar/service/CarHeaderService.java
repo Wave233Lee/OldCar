@@ -143,7 +143,7 @@ public class CarHeaderService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return carHeaderRepository.findByLevel(level,pageable);
+        return carHeaderRepository.findByLevel_Id(level,pageable);
     }
 
     /**

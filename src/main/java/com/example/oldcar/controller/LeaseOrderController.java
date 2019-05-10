@@ -48,6 +48,14 @@ public class LeaseOrderController {
     }
 
     /**
+     * 更新订单状态
+     */
+    @PostMapping(value = "/updateState")
+    public Result<LeaseOrder> updateState(@RequestParam Long id,Integer state){
+        return ResultUtil.success(leaseOrderService.updateState(id,state));
+    }
+
+    /**
      * 根据id查询
      */
     @GetMapping(value = "/getById")
